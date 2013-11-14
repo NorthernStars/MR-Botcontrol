@@ -6,6 +6,8 @@ package core;
  *
  */
 public class BotCommand {
+	
+	public static final int MAX_SPEED = 31;
 
 	private int botID = 0;
 	private int leftSpeed = 0;
@@ -28,6 +30,17 @@ public class BotCommand {
 	 */
 	public String toString(){
 		StringBuilder command = new StringBuilder();
+		
+		// check speeds
+		if( leftSpeed < MAX_SPEED*-1 )
+			leftSpeed = MAX_SPEED*-1;
+		else if( leftSpeed > MAX_SPEED )
+			leftSpeed = MAX_SPEED;
+		
+		if( rightSpeed < MAX_SPEED*-1 )
+			rightSpeed = MAX_SPEED*-1;
+		else if( rightSpeed > MAX_SPEED )
+			rightSpeed = MAX_SPEED;
 		
 		// create command
 		command.append("(fid,");

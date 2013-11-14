@@ -34,6 +34,10 @@ public class MainFrame extends JFrame {
 	public JComboBox cmbBotID;
 	public JPanel panelStatus;
 	public JButton btnTestBots;
+	public JButton btnForeward;
+	public JButton btnBackward;
+	public JButton btnSpinCW;
+	public JButton btnSpinCCW;
 
 	/**
 	 * Launch the application.
@@ -61,15 +65,15 @@ public class MainFrame extends JFrame {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initGUI() {
-		setBounds(100, 100, 411, 176);
+		setBounds(100, 100, 451, 238);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				ColumnSpec.decode("max(40dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("max(40dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,},
@@ -81,7 +85,35 @@ public class MainFrame extends JFrame {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
@@ -110,29 +142,41 @@ public class MainFrame extends JFrame {
 		getContentPane().add(lblNewLabel_2, "2, 6, right, default");
 		
 		this.spLeftSpeed = new JSpinner();
-		this.spLeftSpeed.setModel(new SpinnerNumberModel(0, -100, 100, 10));
+		this.spLeftSpeed.setModel(new SpinnerNumberModel(0, -31, 31, 5));
 		getContentPane().add(this.spLeftSpeed, "4, 6");
 		
+		this.btnSend = new JButton("Send");
+		getContentPane().add(this.btnSend, "8, 6, 1, 3");
+		
 		JLabel lblNewLabel_3 = new JLabel("Right speed:");
-		getContentPane().add(lblNewLabel_3, "6, 6, right, default");
+		getContentPane().add(lblNewLabel_3, "2, 8, right, default");
 		
 		this.spRightSpeed = new JSpinner();
-		this.spRightSpeed.setModel(new SpinnerNumberModel(0, -100, 100, 10));
-		getContentPane().add(this.spRightSpeed, "8, 6");
+		this.spRightSpeed.setModel(new SpinnerNumberModel(0, -31, 31, 5));
+		getContentPane().add(this.spRightSpeed, "4, 8");
 		
 		panelStatus = new JPanel();
 		panelStatus.setBackground(Color.RED);
-		getContentPane().add(panelStatus, "4, 8, fill, fill");
+		getContentPane().add(panelStatus, "6, 6, 1, 3, fill, fill");
 		
 		this.chckbxRepeat = new JCheckBox("repeat");
 		chckbxRepeat.setEnabled(false);
-		getContentPane().add(this.chckbxRepeat, "6, 8");
+		getContentPane().add(this.chckbxRepeat, "8, 10");
 		
-		this.btnSend = new JButton("Send");
-		getContentPane().add(this.btnSend, "8, 8");
+		btnForeward = new JButton("Foreward");
+		getContentPane().add(btnForeward, "2, 12");
+		
+		btnBackward = new JButton("Backward");
+		getContentPane().add(btnBackward, "4, 12");
+		
+		btnSpinCW = new JButton("Spin CW");
+		getContentPane().add(btnSpinCW, "6, 12");
+		
+		btnSpinCCW = new JButton("Spin CCW");
+		getContentPane().add(btnSpinCCW, "8, 12");
 		
 		this.lblStatus = new JLabel("Status: Not connected");
 		this.lblStatus.setForeground(new Color(128, 128, 128));
-		getContentPane().add(this.lblStatus, "2, 10, 7, 1");
+		getContentPane().add(this.lblStatus, "2, 14, 7, 1");
 	}
 }
