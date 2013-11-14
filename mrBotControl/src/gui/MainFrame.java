@@ -33,6 +33,7 @@ public class MainFrame extends JFrame {
 	@SuppressWarnings("rawtypes")
 	public JComboBox cmbBotID;
 	public JPanel panelStatus;
+	public JButton btnTestBots;
 
 	/**
 	 * Launch the application.
@@ -102,6 +103,9 @@ public class MainFrame extends JFrame {
 		this.cmbBotID.setModel(new DefaultComboBoxModel(BotNumbers.values()));
 		getContentPane().add(this.cmbBotID, "4, 4, 3, 1, fill, default");
 		
+		btnTestBots = new JButton("Test Bots");
+		getContentPane().add(btnTestBots, "8, 4");
+		
 		JLabel lblNewLabel_2 = new JLabel("Left speed:");
 		getContentPane().add(lblNewLabel_2, "2, 6, right, default");
 		
@@ -131,5 +135,4 @@ public class MainFrame extends JFrame {
 		this.lblStatus.setForeground(new Color(128, 128, 128));
 		getContentPane().add(this.lblStatus, "2, 10, 7, 1");
 	}
-	
 }

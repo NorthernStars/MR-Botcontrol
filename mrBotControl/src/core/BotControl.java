@@ -20,11 +20,13 @@ import gnu.io.NoSuchPortException;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
 import gnu.io.UnsupportedCommOperationException;
+import gui.BotNumbers;
 import gui.MainFrame;
 
 public class BotControl implements ActionListener {
 
 	public static final String version = "0.1a";
+	private static final int testDelay = 500;
 	private static final int MAX_COMMANDS_PER_PACKET = 6;
 	private final static char WIDTH = 8;	
 	private final static char CRCTABLE[] = {
@@ -75,6 +77,37 @@ public class BotControl implements ActionListener {
 		// Add listener
 		frame.btnConnect.addActionListener(this);
 		frame.btnSend.addActionListener(this);
+		frame.btnTestBots.addActionListener(this);
+	}
+	
+	/**
+	 * Test all bots
+	 */
+	public void testBots(){
+		int leftSpeed = Integer.valueOf( frame.spLeftSpeed.getValue().toString() );
+		int rightSpeed = Integer.valueOf( frame.spRightSpeed.getValue().toString() );
+		
+		for( int i=0; i < BotNumbers.values().length; i++ ){
+			
+			// Create command
+			BotCommand command = new BotCommand(i, leftSpeed, rightSpeed);
+			List<BotCommand> commands = new ArrayList<BotCommand>();
+			commands.add( command );
+			
+			// Send command
+			sendCommands( commands, 1 );
+			
+			// Show number of bot
+			frame.lblStatus.setText( "Testing bot "+i );
+			
+			// Wait
+			try {
+				Thread.sleep(testDelay);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+		}		
 	}
 	
 	/**
@@ -263,6 +296,18 @@ public class BotControl implements ActionListener {
 			
 			// Send command
 			sendCommands( commands, 1 );			
+		}
+		else if( btn == frame.btnTestBots ){
+			
+			// Test bots
+			new Thread( new Runnable() {
+				
+				@Override
+				public void run() {
+					testBots();
+				}
+			} ).start();
+			
 		}
 	}
 	
