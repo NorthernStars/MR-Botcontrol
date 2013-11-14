@@ -144,8 +144,7 @@ public class MRBotControl extends BotControl implements ActionListener {
 		// CONNECT / DISCONNECT
 		if( btn == frame.btnConnect  ){			
 			// connect/disconnect to device
-			if( btn.getText().equals( "Connect" ) ){
-				
+			if( btn.getText().equals( "Connect" ) ){				
 				String comport = frame.txtComport.getText();
 				this.comport = comport;
 				try {
@@ -154,15 +153,12 @@ public class MRBotControl extends BotControl implements ActionListener {
 					btn.setText( "Disconnect" );
 				} catch (Exception e1) {
 					frame.lblStatus.setText( "Could not connect to device!" );
-				}
-				
+				}				
 			}
 			else{
-				ircom.disconnect();
-				
+				ircom.disconnect();				
 				status( "Disconnected" );
-				frame.btnConnect.setText( "Connect" );
-				
+				frame.btnConnect.setText( "Connect" );				
 			}			
 		}
 		
