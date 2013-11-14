@@ -56,7 +56,7 @@ public class BotCommand {
   			else
   				command.append( "bl," );
   			
-  			if( leftSpeed < 16 )
+  			if( Math.abs(leftSpeed) < 16 )
   				command.append("0");
   			command.append( Integer.toHexString(Math.abs(leftSpeed)) );
   			
@@ -68,7 +68,7 @@ public class BotCommand {
   			else
   				command.append( "br," );
   			
-  			if( rightSpeed < 16 )
+  			if( Math.abs(rightSpeed) < 16 )
   				command.append("0");
   			command.append( Integer.toHexString(Math.abs(rightSpeed)) );
   			

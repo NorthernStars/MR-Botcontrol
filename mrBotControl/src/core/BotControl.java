@@ -26,7 +26,7 @@ import gui.MainFrame;
 public class BotControl implements ActionListener {
 
 	public static final String version = "0.1a";
-	private static final int testDelay = 500;
+	private static final int testDelay = 200;
 	private static final int MAX_COMMANDS_PER_PACKET = 6;
 	private final static char WIDTH = 8;	
 	private final static char CRCTABLE[] = {
