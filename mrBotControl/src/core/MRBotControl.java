@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -259,8 +263,47 @@ public class MRBotControl extends BotControl implements ActionListener {
 		}
 		
 		// Create main object and gui
-		MRBotControl control = new MRBotControl(comport, baudrate);
+		final MRBotControl control = new MRBotControl(comport, baudrate);
 		control.initGui();
+		
+		// quick and dirty receiver
+		new Thread( new Runnable() {
+
+			@SuppressWarnings("resource")
+			@Override
+			public void run() {
+
+				DatagramSocket vSocket = null;
+				try {
+					vSocket = new DatagramSocket( 5555 );
+					vSocket.setSoTimeout( 0 );
+				} catch ( SocketException e ) {
+					e.printStackTrace();
+				}
+				
+				String vData = null;
+				String[] vPart;
+				
+				DatagramPacket vDatagrammPacketFromServer = new DatagramPacket( new byte[16384], 16384 );
+				while(true){
+					
+					try {
+						
+						vSocket.receive( vDatagrammPacketFromServer );
+						
+						vData = new String( vDatagrammPacketFromServer.getData(), 0, vDatagrammPacketFromServer.getLength() );
+						System.out.println( vData );
+						vPart = vData.split("\\|");
+						System.out.println( Arrays.toString( vPart ) );
+						control.send( new BotCommand( Integer.parseInt( vPart[0] ), 31 * Integer.parseInt( vPart[1] )/100, Integer.parseInt( vPart[2] )/100 ) );
+						
+					} catch ( Exception e ) {
+						e.printStackTrace();
+					}
+					
+				}
+			}
+		} ).start();
 
 	}
 
