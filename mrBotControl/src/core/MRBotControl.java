@@ -308,6 +308,7 @@ public class MRBotControl extends BotControl implements ActionListener {
 						
 						System.out.println(vListOfCommands);
 						control.send( vListOfCommands );
+						vListOfCommands.clear();
 						vLastTime = System.nanoTime();
 						
 					}
