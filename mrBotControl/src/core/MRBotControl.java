@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -285,6 +286,10 @@ public class MRBotControl extends BotControl implements ActionListener {
 				String[] vPart;
 				
 				DatagramPacket vDatagrammPacketFromServer = new DatagramPacket( new byte[16384], 16384 );
+				
+				long vLastTime = System.nanoTime();
+				List<BotCommand> vListOfCommands = new ArrayList<BotCommand>();
+				
 				while(true){
 					
 					try {
@@ -292,13 +297,19 @@ public class MRBotControl extends BotControl implements ActionListener {
 						vSocket.receive( vDatagrammPacketFromServer );
 						
 						vData = new String( vDatagrammPacketFromServer.getData(), 0, vDatagrammPacketFromServer.getLength() );
-						System.out.println( vData );
 						vPart = vData.split("\\|");
-						System.out.println( Arrays.toString( vPart ) );
-						control.send( new BotCommand( Integer.parseInt( vPart[0] ), 31 * Integer.parseInt( vPart[1] )/100, Integer.parseInt( vPart[2] )/100 ) );
+						vListOfCommands.add( new BotCommand( Integer.parseInt( vPart[0] ), 31 * Integer.parseInt( vPart[1] )/100, 31 * Integer.parseInt( vPart[2] )/100 ) );
 						
 					} catch ( Exception e ) {
 						e.printStackTrace();
+					}
+					
+					if( System.nanoTime() - vLastTime > 25000000 ){
+						
+						System.out.println(vListOfCommands);
+						control.send( vListOfCommands );
+						vLastTime = System.nanoTime();
+						
 					}
 					
 				}
