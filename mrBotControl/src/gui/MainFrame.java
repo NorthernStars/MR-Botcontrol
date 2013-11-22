@@ -61,6 +61,7 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		setTitle("BotControl NorthernStars");
 
 		initGUI();
 	}

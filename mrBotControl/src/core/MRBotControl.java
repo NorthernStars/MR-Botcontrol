@@ -116,8 +116,8 @@ public class MRBotControl extends BotControl implements ActionListener {
 	 * Test all bots
 	 */
 	public void testBots(){
-		int leftSpeed = Integer.valueOf( frame.spLeftSpeed.getValue().toString() );
-		int rightSpeed = Integer.valueOf( frame.spRightSpeed.getValue().toString() );
+		int leftSpeed = 31;
+		int rightSpeed = -31;
 		
 		for( int i=0; i <= BotNumbers.values().length; i++ ){
 
