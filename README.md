@@ -3,16 +3,10 @@ MR-Botcontrol
 
 Mixde-Reality Bot Control Module
 
-# ---------------------------------------
-# mrBotControl
-# version 0.1a
-# ---------------------------------------
+INSTALLATION
+------------
 
-# ---------------------------------------
-# INSTALLATION
-# ---------------------------------------
-
-1. To install import project into eclipse.
+1. Import project into eclipse.
 
 2. Copy librxtxSerial library of your OS
    from lib folder to root folder.
@@ -21,9 +15,8 @@ Mixde-Reality Bot Control Module
 
 
 
-# ---------------------------------------
-# Linux device permissions
-# ---------------------------------------
+Linux device permissions
+------------------------
 If your're using windows, maybe you have no
 permissions to use FTDI devices.
 So create a new udev rule in /etc/udev/rules.d.
