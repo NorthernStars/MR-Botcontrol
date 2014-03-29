@@ -30,6 +30,9 @@ import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import de.hanneseilers.jftdiserial.core.DataBits;
+import de.hanneseilers.jftdiserial.core.StopBits;
+import de.hanneseilers.jftdiserial.core.Parity;
 
 /**
  * Main frame GUI.
@@ -54,12 +57,20 @@ public class MainFrame extends JFrame {
 	public JPanel panel;
 	public JLabel lblDevice;
 	public JButton btnConnect;
-	public JComboBox<String> cmbDevice;
+	public JComboBox<String> cmbDevices;
 	public JTextField txtDevice;
 	public JLabel lblBaudrate;
 	public JComboBox<Baudrates> cmbBaudrate;
 	public JLabel lblSerialLibrary;
 	public JComboBox<String> cmbSerialLibraries;
+	public JLabel lblData;
+	public JComboBox<DataBits> cmbDataBits;
+	public JLabel lblStopBits;
+	public JComboBox<StopBits> cmbStopBits;
+	public JLabel lblParity;
+	public JComboBox<Parity> cmbParity;
+	public JLabel lblStatusInfo;
+	public JLabel lblStatus;
 
 	/**
 	 * Launch the gui.
@@ -83,7 +94,7 @@ public class MainFrame extends JFrame {
 	public MainFrame(GuiFrameListener listener) {
 		setTitle("MRBotControl");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 556, 481);
+		setBounds(100, 100, 800, 300);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -123,24 +134,36 @@ public class MainFrame extends JFrame {
 		tabbedPane.addTab("Settings", null, panelSettings, null);
 		panelSettings.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),}));
+				RowSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_ROWSPEC,}));
 		
 		panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Connection", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelSettings.add(panel, "2, 2, fill, fill");
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(50dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(50dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(50dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(50dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -150,35 +173,69 @@ public class MainFrame extends JFrame {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		lblSerialLibrary = new JLabel("Serial library:");
+		lblSerialLibrary = new JLabel("Library:");
 		lblSerialLibrary.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblSerialLibrary, "2, 2, right, default");
+		panel.add(lblSerialLibrary, "1, 1, right, default");
 		
 		cmbSerialLibraries = new JComboBox<String>();
-		panel.add(cmbSerialLibraries, "4, 2, 3, 1, fill, default");
+		panel.add(cmbSerialLibraries, "3, 1, 13, 1, fill, default");
 		
 		lblDevice = new JLabel("Device:");
 		lblDevice.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblDevice, "2, 4, 1, 3, right, default");
+		panel.add(lblDevice, "1, 3, right, default");
 		
-		cmbDevice = new JComboBox<String>();
-		panel.add(cmbDevice, "4, 4, 3, 1, fill, default");
+		cmbDevices = new JComboBox<String>();
+		panel.add(cmbDevices, "3, 3, 13, 1, fill, default");
 		
 		btnConnect = new JButton("Connect");
-		panel.add(btnConnect, "8, 4, 1, 3");
+		panel.add(btnConnect, "17, 1, 1, 7");
 		
 		txtDevice = new JTextField();
-		panel.add(txtDevice, "4, 6, 3, 1, fill, default");
+		panel.add(txtDevice, "3, 5, 13, 1, fill, default");
 		txtDevice.setColumns(10);
 		
 		lblBaudrate = new JLabel("Baudrate:");
 		lblBaudrate.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblBaudrate, "2, 8, right, default");
+		panel.add(lblBaudrate, "1, 7, right, default");
 		
 		cmbBaudrate = new JComboBox<Baudrates>();
 		cmbBaudrate.setModel(new DefaultComboBoxModel<Baudrates>(Baudrates.values()));
 		cmbBaudrate.setSelectedIndex(12);
-		panel.add(cmbBaudrate, "4, 8, fill, default");
+		panel.add(cmbBaudrate, "3, 7, fill, default");
+		
+		lblData = new JLabel("Data:");
+		lblData.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel.add(lblData, "5, 7, right, default");
+		
+		cmbDataBits = new JComboBox<DataBits>();
+		cmbDataBits.setModel(new DefaultComboBoxModel<DataBits>(DataBits.values()));
+		cmbDataBits.setSelectedIndex(3);
+		panel.add(cmbDataBits, "7, 7, fill, default");
+		
+		lblStopBits = new JLabel("Stop bits:");
+		lblStopBits.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel.add(lblStopBits, "9, 7, right, default");
+		
+		cmbStopBits = new JComboBox<StopBits>();
+		cmbStopBits.setModel(new DefaultComboBoxModel<StopBits>(StopBits.values()));
+		cmbStopBits.setSelectedIndex(0);
+		panel.add(cmbStopBits, "11, 7, fill, default");
+		
+		lblParity = new JLabel("Parity:");
+		lblParity.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel.add(lblParity, "13, 7, right, default");
+		
+		cmbParity = new JComboBox<Parity>();
+		cmbParity.setModel(new DefaultComboBoxModel<Parity>(Parity.values()));
+		cmbParity.setSelectedIndex(0);
+		panel.add(cmbParity, "15, 7, fill, default");
+		
+		lblStatusInfo = new JLabel("Status:");
+		lblStatusInfo.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel.add(lblStatusInfo, "1, 9");
+		
+		lblStatus = new JLabel("");
+		panel.add(lblStatus, "3, 9, 13, 1");
 		
 		panelBotControl = new JPanel();
 		tabbedPane.addTab("BotControl", null, panelBotControl, null);
