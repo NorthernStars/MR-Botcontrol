@@ -5,7 +5,10 @@ import javax.swing.JFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.hanneseilers.jftdiserial.core.FTDISerial;
 import de.northernstars.mr.botcontrol.core.interfaces.GuiFrameListener;
+import de.northernstars.mr.botcontrol.core.tabsections.TabSection;
+import de.northernstars.mr.botcontrol.core.tabsections.TabSectionSettings;
 import de.northernstars.mr.botcontrol.gui.MainFrame;
 
 /**
@@ -17,6 +20,7 @@ public class MRBotControl implements GuiFrameListener {
 	
 	private static final Logger log = LogManager.getLogger();
 	private MainFrame gui = null;
+	private FTDISerial ftdi = new FTDISerial();
 
 	/**
 	 * Constructor
@@ -24,16 +28,35 @@ public class MRBotControl implements GuiFrameListener {
 	public MRBotControl() {
 		// TODO Auto-generated constructor stub
 		MainFrame.showMainFrame(this);
-		log.debug("test");
 	}
+	
+	/**
+	 * Loads {@link TabSection} instances
+	 */
+	private void loadTabSections(){
+		new TabSectionSettings(this);
+	}
+	
+	/**
+	 * @return the gui
+	 */
+	public MainFrame getGui() {
+		return gui;
+	}
+	
 	
 	@Override
 	public void frameLoaded(JFrame frame) {
 		try{
 			gui = (MainFrame) frame;
-		} catch(ClassCastException e){}
-	}
+			loadTabSections();
+		} catch(ClassCastException e){
+			log.error("Could not cast " + frame + " to MainFrame.");
+		}
+	}	
+
 	
+
 	/**
 	 * @param args
 	 */
@@ -42,6 +65,11 @@ public class MRBotControl implements GuiFrameListener {
 		new MRBotControl();
 	}
 
-	
+	/**
+	 * @return the ftdi
+	 */
+	public FTDISerial getFtdi() {
+		return ftdi;
+	}	
 
 }

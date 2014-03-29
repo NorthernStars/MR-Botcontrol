@@ -58,6 +58,8 @@ public class MainFrame extends JFrame {
 	public JTextField txtDevice;
 	public JLabel lblBaudrate;
 	public JComboBox<Baudrates> cmbBaudrate;
+	public JLabel lblSerialLibrary;
+	public JComboBox<String> cmbSerialLibraries;
 
 	/**
 	 * Launch the gui.
@@ -144,30 +146,39 @@ public class MainFrame extends JFrame {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		lblSerialLibrary = new JLabel("Serial library:");
+		lblSerialLibrary.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel.add(lblSerialLibrary, "2, 2, right, default");
+		
+		cmbSerialLibraries = new JComboBox<String>();
+		panel.add(cmbSerialLibraries, "4, 2, 3, 1, fill, default");
 		
 		lblDevice = new JLabel("Device:");
 		lblDevice.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblDevice, "2, 2, 1, 3, right, default");
+		panel.add(lblDevice, "2, 4, 1, 3, right, default");
 		
 		cmbDevice = new JComboBox<String>();
-		panel.add(cmbDevice, "4, 2, 3, 1, fill, default");
+		panel.add(cmbDevice, "4, 4, 3, 1, fill, default");
 		
 		btnConnect = new JButton("Connect");
-		panel.add(btnConnect, "8, 2, 1, 3");
+		panel.add(btnConnect, "8, 4, 1, 3");
 		
 		txtDevice = new JTextField();
-		panel.add(txtDevice, "4, 4, 3, 1, fill, default");
+		panel.add(txtDevice, "4, 6, 3, 1, fill, default");
 		txtDevice.setColumns(10);
 		
 		lblBaudrate = new JLabel("Baudrate:");
 		lblBaudrate.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblBaudrate, "2, 6, right, default");
+		panel.add(lblBaudrate, "2, 8, right, default");
 		
 		cmbBaudrate = new JComboBox<Baudrates>();
 		cmbBaudrate.setModel(new DefaultComboBoxModel<Baudrates>(Baudrates.values()));
 		cmbBaudrate.setSelectedIndex(12);
-		panel.add(cmbBaudrate, "4, 6, fill, default");
+		panel.add(cmbBaudrate, "4, 8, fill, default");
 		
 		panelBotControl = new JPanel();
 		tabbedPane.addTab("BotControl", null, panelBotControl, null);
