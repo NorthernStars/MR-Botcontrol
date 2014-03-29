@@ -153,16 +153,12 @@ public class MainFrame extends JFrame {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(50dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(50dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(50dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				ColumnSpec.decode("max(56dlu;default)"),},
 			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -178,20 +174,20 @@ public class MainFrame extends JFrame {
 		panel.add(lblSerialLibrary, "1, 1, right, default");
 		
 		cmbSerialLibraries = new JComboBox<String>();
-		panel.add(cmbSerialLibraries, "3, 1, 13, 1, fill, default");
+		panel.add(cmbSerialLibraries, "3, 1, 7, 1, fill, default");
 		
 		lblDevice = new JLabel("Device:");
 		lblDevice.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel.add(lblDevice, "1, 3, right, default");
 		
 		cmbDevices = new JComboBox<String>();
-		panel.add(cmbDevices, "3, 3, 13, 1, fill, default");
+		panel.add(cmbDevices, "3, 3, 7, 1, fill, default");
 		
 		btnConnect = new JButton("Connect");
-		panel.add(btnConnect, "17, 1, 1, 7");
+		panel.add(btnConnect, "11, 1, 1, 7");
 		
 		txtDevice = new JTextField();
-		panel.add(txtDevice, "3, 5, 13, 1, fill, default");
+		panel.add(txtDevice, "3, 5, 7, 1, fill, default");
 		txtDevice.setColumns(10);
 		
 		lblBaudrate = new JLabel("Baudrate:");
@@ -203,39 +199,39 @@ public class MainFrame extends JFrame {
 		cmbBaudrate.setSelectedIndex(12);
 		panel.add(cmbBaudrate, "3, 7, fill, default");
 		
-		lblData = new JLabel("Data:");
-		lblData.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblData, "5, 7, right, default");
-		
-		cmbDataBits = new JComboBox<DataBits>();
-		cmbDataBits.setModel(new DefaultComboBoxModel<DataBits>(DataBits.values()));
-		cmbDataBits.setSelectedIndex(3);
-		panel.add(cmbDataBits, "7, 7, fill, default");
-		
-		lblStopBits = new JLabel("Stop bits:");
-		lblStopBits.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblStopBits, "9, 7, right, default");
-		
-		cmbStopBits = new JComboBox<StopBits>();
-		cmbStopBits.setModel(new DefaultComboBoxModel<StopBits>(StopBits.values()));
-		cmbStopBits.setSelectedIndex(0);
-		panel.add(cmbStopBits, "11, 7, fill, default");
-		
 		lblParity = new JLabel("Parity:");
 		lblParity.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblParity, "13, 7, right, default");
+		panel.add(lblParity, "5, 7, right, default");
 		
 		cmbParity = new JComboBox<Parity>();
 		cmbParity.setModel(new DefaultComboBoxModel<Parity>(Parity.values()));
 		cmbParity.setSelectedIndex(0);
-		panel.add(cmbParity, "15, 7, fill, default");
+		panel.add(cmbParity, "7, 7, fill, default");
+		
+		lblData = new JLabel("Data:");
+		lblData.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel.add(lblData, "1, 9, right, default");
+		
+		cmbDataBits = new JComboBox<DataBits>();
+		cmbDataBits.setModel(new DefaultComboBoxModel<DataBits>(DataBits.values()));
+		cmbDataBits.setSelectedIndex(3);
+		panel.add(cmbDataBits, "3, 9, fill, default");
+		
+		lblStopBits = new JLabel("Stop bits:");
+		lblStopBits.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel.add(lblStopBits, "5, 9, right, default");
+		
+		cmbStopBits = new JComboBox<StopBits>();
+		cmbStopBits.setModel(new DefaultComboBoxModel<StopBits>(StopBits.values()));
+		cmbStopBits.setSelectedIndex(0);
+		panel.add(cmbStopBits, "7, 9, fill, default");
 		
 		lblStatusInfo = new JLabel("Status:");
 		lblStatusInfo.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblStatusInfo, "1, 9");
+		panel.add(lblStatusInfo, "1, 11");
 		
 		lblStatus = new JLabel("");
-		panel.add(lblStatus, "3, 9, 13, 1");
+		panel.add(lblStatus, "3, 11, 7, 1");
 		
 		panelBotControl = new JPanel();
 		tabbedPane.addTab("BotControl", null, panelBotControl, null);
