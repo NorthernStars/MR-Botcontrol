@@ -2,11 +2,11 @@ package de.northernstars.mr.botcontrol.core.tabsections;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.event.ChangeEvent;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +35,7 @@ public class TabSectionSettings extends TabSection {
 		super(mrBotControl);
 		
 		gui = control.getGui();		
-		gui.panelSettings.addFocusListener(this);		
+		gui.tabbedPane.addChangeListener(this);		
 		gui.cmbSerialLibraries.setModel(libsModel);
 		gui.cmbDevices.setModel(devsModel);
 		gui.cmbSerialLibraries.addItemListener(new ItemListener() {			
@@ -142,12 +142,11 @@ public class TabSectionSettings extends TabSection {
 	}
 
 	@Override
-	public void focusGained(FocusEvent e) {
-		updateLibsModel();
-		updateGuiComponentsEnabled();
+	public void stateChanged(ChangeEvent arg0) {
+		if( gui.tabbedPane.getSelectedComponent() == gui.panelSettings ){
+			updateLibsModel();
+			updateGuiComponentsEnabled();
+		}
 	}
-
-	@Override
-	public void focusLost(FocusEvent e) {}
 
 }
