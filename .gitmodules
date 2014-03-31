@@ -1,6 +1,0 @@
-[submodule "libraries"]
-	path = libraries
-	url = https://github.com/hanneseilers/jFTDIserial.git
-[submodule "jFTDIserial"]
-	path = jFTDIserial
-	url = https://github.com/hanneseilers/jFTDIserial.git
