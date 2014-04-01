@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import de.hanneseilers.jftdiserial.core.Baudrates;
 import de.hanneseilers.jftdiserial.core.DataBits;
+import de.hanneseilers.jftdiserial.core.FTDISerial;
 import de.hanneseilers.jftdiserial.core.Parity;
 import de.hanneseilers.jftdiserial.core.SerialDevice;
 import de.hanneseilers.jftdiserial.core.StopBits;
@@ -77,6 +78,14 @@ public class TabSectionSettings extends TabSection {
 						if( dev.toString().equals(devName) ){
 							control.getFtdi().setConnectionSettings(baudrate, dataBits, stopBits, parity, 100);
 							if( control.getFtdi().connect(dev) ){
+								
+								// Test
+								FTDISerial ftdi = control.getFtdi();
+								ftdi.write( (byte) 0x3F );
+								byte[] buffer = ftdi.read(5);
+								for( byte b : buffer ){
+									System.err.println(b);
+								}
 								break;
 							}
 						}
