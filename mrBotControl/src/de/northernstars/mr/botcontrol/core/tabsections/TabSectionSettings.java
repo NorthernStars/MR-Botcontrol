@@ -67,7 +67,7 @@ public class TabSectionSettings extends TabSection {
 					
 				} else{
 					
-					// get device by name
+					// get device by connectorName
 					String devName = gui.txtDevice.getText();
 					Baudrates baudrate = gui.cmbBaudrate.getItemAt(gui.cmbBaudrate.getSelectedIndex());
 					DataBits dataBits = gui.cmbDataBits.getItemAt(gui.cmbDataBits.getSelectedIndex());
