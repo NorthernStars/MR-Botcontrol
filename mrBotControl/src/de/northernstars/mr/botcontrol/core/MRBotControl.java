@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import de.hanneseilers.jftdiserial.core.FTDISerial;
 import de.northernstars.mr.botcontrol.core.interfaces.GuiFrameListener;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSection;
+import de.northernstars.mr.botcontrol.core.tabsections.TabSectionDebugInterface;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionSettings;
 import de.northernstars.mr.botcontrol.gui.MainFrame;
 
@@ -35,6 +36,7 @@ public class MRBotControl implements GuiFrameListener {
 	 */
 	private void loadTabSections(){
 		new TabSectionSettings(this);
+		new TabSectionDebugInterface(this);
 	}
 	
 	/**

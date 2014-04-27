@@ -16,6 +16,9 @@ public abstract class TabSection implements ChangeListener {
 	 */
 	public TabSection(MRBotControl mrBotControl) {
 		control = mrBotControl;
+		
+		gui = control.getGui();		
+		gui.tabbedPane.addChangeListener(this);	
 	}
 	
 }

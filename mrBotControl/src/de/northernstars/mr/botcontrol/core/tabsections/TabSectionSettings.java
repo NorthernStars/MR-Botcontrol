@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 import de.hanneseilers.jftdiserial.core.Baudrates;
 import de.hanneseilers.jftdiserial.core.DataBits;
-import de.hanneseilers.jftdiserial.core.FTDISerial;
 import de.hanneseilers.jftdiserial.core.Parity;
 import de.hanneseilers.jftdiserial.core.SerialDevice;
 import de.hanneseilers.jftdiserial.core.StopBits;
@@ -26,7 +25,6 @@ import de.northernstars.mr.botcontrol.core.MRBotControl;
  */
 public class TabSectionSettings extends TabSection {
 
-	@SuppressWarnings("unused")
 	private static final Logger log = LogManager.getLogger();
 	
 	private DefaultComboBoxModel<String> libsModel = new DefaultComboBoxModel<String>();
@@ -34,9 +32,7 @@ public class TabSectionSettings extends TabSection {
 	
 	public TabSectionSettings(MRBotControl mrBotControl) {
 		super(mrBotControl);
-		
-		gui = control.getGui();		
-		gui.tabbedPane.addChangeListener(this);		
+			
 		gui.cmbSerialLibraries.setModel(libsModel);
 		gui.cmbDevices.setModel(devsModel);
 		gui.cmbSerialLibraries.addItemListener(new ItemListener() {			
@@ -64,6 +60,7 @@ public class TabSectionSettings extends TabSection {
 				if( control.getFtdi().isConnected() ){
 					
 					control.getFtdi().disconnect();
+					log.debug("Disconnected from device.");
 					
 				} else{
 					
@@ -78,14 +75,7 @@ public class TabSectionSettings extends TabSection {
 						if( dev.toString().equals(devName) ){
 							control.getFtdi().setConnectionSettings(baudrate, dataBits, stopBits, parity, 100);
 							if( control.getFtdi().connect(dev) ){
-								
-								// Test
-								FTDISerial ftdi = control.getFtdi();
-								ftdi.write( (byte) 0x3F );
-								byte[] buffer = ftdi.read(5);
-								for( byte b : buffer ){
-									System.err.println(b);
-								}
+								log.debug("Connected to {}", dev);
 								break;
 							}
 						}
@@ -132,7 +122,7 @@ public class TabSectionSettings extends TabSection {
 		}
 		
 		// set selected item
-		control.getGui().cmbSerialLibraries.setSelectedItem( control.getFtdi().getSelectedLibName() );
+		gui.cmbSerialLibraries.setSelectedItem( control.getFtdi().getSelectedLibName() );
 		
 		// update devices list
 		updateDevicesModel();
