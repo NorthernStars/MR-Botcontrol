@@ -60,6 +60,7 @@ public class TabSectionSettings extends TabSection {
 				if( control.getFtdi().isConnected() ){
 					
 					control.getFtdi().disconnect();
+					gui.lblStatus.setText("Disconnected");
 					log.debug("Disconnected from device.");
 					
 				} else{
@@ -75,6 +76,7 @@ public class TabSectionSettings extends TabSection {
 						if( dev.toString().equals(devName) ){
 							control.getFtdi().setConnectionSettings(baudrate, dataBits, stopBits, parity, 100);
 							if( control.getFtdi().connect(dev) ){
+								gui.lblStatus.setText("Connected to " + dev.toString());
 								log.debug("Connected to {}", dev);
 								break;
 							}
@@ -142,7 +144,6 @@ public class TabSectionSettings extends TabSection {
 
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
-		log.debug("selected component {}", gui.tabbedPane.getSelectedComponent());
 		if( gui.tabbedPane.getSelectedComponent() == gui.panelSettings ){
 			updateLibsModel();
 			updateGuiComponentsEnabled();

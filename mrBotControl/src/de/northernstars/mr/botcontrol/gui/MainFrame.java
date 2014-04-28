@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import de.hanneseilers.jftdiserial.core.Baudrates;
 import de.northernstars.mr.botcontrol.core.interfaces.GuiFrameListener;
+import de.northernstars.mr.botcontrol.core.protocol.ProtocolVersions;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -36,6 +37,9 @@ import de.hanneseilers.jftdiserial.core.Parity;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  * Main frame GUI.
@@ -55,7 +59,6 @@ public class MainFrame extends JFrame {
 	public JTabbedPane tabbedPane;
 	public JPanel panelSettings;
 	public JPanel panelBotControl;
-	public JPanel panelLedControl;
 	public JPanel panelDebugInterface;
 	public JPanel panel;
 	public JLabel lblDevice;
@@ -92,6 +95,28 @@ public class MainFrame extends JFrame {
 	public JComboBox<String> cmbDebugSerialLibraries;
 	public JTextField txtDebugDevice;
 	public JLabel lblDebugBotID;
+	public JLabel lblProtocolVersion;
+	public JComboBox<ProtocolVersions> cmbProtocolVersion;
+	public JPanel panelBotControlBotID;
+	public JLabel lblBotId;
+	public JTextField txtBotID;
+	public JLabel lblChangeBotIDTo;
+	public JTextField txtBotIDChangeTo;
+	public JButton btnChangeBotID;
+	public JButton btnTestFirst;
+	public JPanel panelBotControlMotors;
+	public JLabel lblLeftSpeed;
+	public JLabel lblRightSpeed;
+	public JTextField txtMotorLeft;
+	public JTextField txtMotorRight;
+	public JButton btnMotorsStop;
+	public JButton btnMotorLeftForeward;
+	public JButton btnMotorRightForeward;
+	public JButton btnMotorLeftBackward;
+	public JButton btnMotorRightBackward;
+	public JButton btnMotorsForeward;
+	public JButton btnMotorsBackward;
+	public JLabel lblBothMotors;
 
 	/**
 	 * Launch the gui.
@@ -143,6 +168,7 @@ public class MainFrame extends JFrame {
 		});
 		mntmQuit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
 		mnFile.add(mntmQuit);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -168,7 +194,7 @@ public class MainFrame extends JFrame {
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(50dlu;default)"),
+				ColumnSpec.decode("max(50dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -178,6 +204,8 @@ public class MainFrame extends JFrame {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(56dlu;default)"),},
 			new RowSpec[] {
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -205,7 +233,9 @@ public class MainFrame extends JFrame {
 		panel.add(cmbDevices, "3, 3, 7, 1, fill, default");
 		
 		btnConnect = new JButton("Connect");
+		btnConnect.setMnemonic('C');
 		panel.add(btnConnect, "11, 1, 1, 7");
+		getRootPane().setDefaultButton(btnConnect);
 		
 		txtDevice = new JTextField();
 		panel.add(txtDevice, "3, 5, 7, 1, fill, default");
@@ -247,22 +277,220 @@ public class MainFrame extends JFrame {
 		cmbStopBits.setSelectedIndex(0);
 		panel.add(cmbStopBits, "7, 9, fill, default");
 		
+		lblProtocolVersion = new JLabel("Protocol version:");
+		panel.add(lblProtocolVersion, "1, 11, right, default");
+		
+		cmbProtocolVersion = new JComboBox<ProtocolVersions>();
+		cmbProtocolVersion.setEnabled(false);
+		cmbProtocolVersion.setModel(new DefaultComboBoxModel<ProtocolVersions>(ProtocolVersions.values()));
+		panel.add(cmbProtocolVersion, "3, 11, fill, default");
+		
 		lblStatusInfo = new JLabel("Status:");
 		lblStatusInfo.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblStatusInfo, "1, 11");
+		panel.add(lblStatusInfo, "1, 13");
 		
-		lblStatus = new JLabel("");
-		panel.add(lblStatus, "3, 11, 7, 1");
+		lblStatus = new JLabel("Disconnected");
+		panel.add(lblStatus, "3, 13, 7, 1");
 		
 		panelBotControl = new JPanel();
 		tabbedPane.addTab("BotControl", null, panelBotControl, null);
-		panelBotControl.setLayout(new FormLayout(new ColumnSpec[] {},
-			new RowSpec[] {}));
+		panelBotControl.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_ROWSPEC,}));
 		
-		panelLedControl = new JPanel();
-		tabbedPane.addTab("LED Control", null, panelLedControl, null);
-		panelLedControl.setLayout(new FormLayout(new ColumnSpec[] {},
-			new RowSpec[] {}));
+		panelBotControlBotID = new JPanel();
+		panelBotControlBotID.setBorder(new TitledBorder(null, "Bot", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelBotControl.add(panelBotControlBotID, "2, 2, fill, fill");
+		GridBagLayout gbl_panelBotControlBotID = new GridBagLayout();
+		gbl_panelBotControlBotID.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panelBotControlBotID.rowHeights = new int[]{0, 0};
+		gbl_panelBotControlBotID.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBotControlBotID.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panelBotControlBotID.setLayout(gbl_panelBotControlBotID);
+		
+		lblBotId = new JLabel("Bot ID:");
+		lblBotId.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints gbc_lblBotId = new GridBagConstraints();
+		gbc_lblBotId.insets = new Insets(0, 0, 0, 5);
+		gbc_lblBotId.anchor = GridBagConstraints.EAST;
+		gbc_lblBotId.gridx = 0;
+		gbc_lblBotId.gridy = 0;
+		panelBotControlBotID.add(lblBotId, gbc_lblBotId);
+		
+		txtBotID = new JTextField();
+		txtBotID.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				txtBotID.selectAll();
+			}
+		});
+		txtBotID.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				txtBotIDChangeTo.setText(txtBotID.getText());
+			}
+		});
+		txtBotID.setHorizontalAlignment(SwingConstants.CENTER);
+		txtBotID.setText("0");
+		GridBagConstraints gbc_txtBotID = new GridBagConstraints();
+		gbc_txtBotID.insets = new Insets(0, 0, 0, 5);
+		gbc_txtBotID.gridx = 1;
+		gbc_txtBotID.gridy = 0;
+		panelBotControlBotID.add(txtBotID, gbc_txtBotID);
+		txtBotID.setColumns(10);
+		
+		lblChangeBotIDTo = new JLabel("change to:");
+		GridBagConstraints gbc_lblChangeBotIDTo = new GridBagConstraints();
+		gbc_lblChangeBotIDTo.insets = new Insets(0, 0, 0, 5);
+		gbc_lblChangeBotIDTo.anchor = GridBagConstraints.EAST;
+		gbc_lblChangeBotIDTo.gridx = 2;
+		gbc_lblChangeBotIDTo.gridy = 0;
+		panelBotControlBotID.add(lblChangeBotIDTo, gbc_lblChangeBotIDTo);
+		
+		txtBotIDChangeTo = new JTextField();
+		txtBotIDChangeTo.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtBotIDChangeTo.selectAll();
+			}
+		});
+		txtBotIDChangeTo.setHorizontalAlignment(SwingConstants.CENTER);
+		txtBotIDChangeTo.setText("0");
+		GridBagConstraints gbc_txtBotIDChangeTo = new GridBagConstraints();
+		gbc_txtBotIDChangeTo.insets = new Insets(0, 0, 0, 5);
+		gbc_txtBotIDChangeTo.gridx = 3;
+		gbc_txtBotIDChangeTo.gridy = 0;
+		panelBotControlBotID.add(txtBotIDChangeTo, gbc_txtBotIDChangeTo);
+		txtBotIDChangeTo.setColumns(10);
+		
+		btnChangeBotID = new JButton("Change");
+		GridBagConstraints gbc_btnChangeBotID = new GridBagConstraints();
+		gbc_btnChangeBotID.insets = new Insets(0, 0, 0, 5);
+		gbc_btnChangeBotID.gridx = 4;
+		gbc_btnChangeBotID.gridy = 0;
+		panelBotControlBotID.add(btnChangeBotID, gbc_btnChangeBotID);
+		
+		btnTestFirst = new JButton("Test First 30 Bots");
+		GridBagConstraints gbc_btnTestFirst = new GridBagConstraints();
+		gbc_btnTestFirst.gridx = 6;
+		gbc_btnTestFirst.gridy = 0;
+		panelBotControlBotID.add(btnTestFirst, gbc_btnTestFirst);
+		
+		panelBotControlMotors = new JPanel();
+		panelBotControlMotors.setBorder(new TitledBorder(null, "Motors", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelBotControl.add(panelBotControlMotors, "2, 4, fill, fill");
+		GridBagLayout gbl_panelBotControlMotors = new GridBagLayout();
+		gbl_panelBotControlMotors.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_panelBotControlMotors.rowHeights = new int[]{0, 40, 40, 40, 0};
+		gbl_panelBotControlMotors.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBotControlMotors.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panelBotControlMotors.setLayout(gbl_panelBotControlMotors);
+		
+		lblLeftSpeed = new JLabel("Left Speed");
+		GridBagConstraints gbc_lblLeftSpeed = new GridBagConstraints();
+		gbc_lblLeftSpeed.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLeftSpeed.gridx = 0;
+		gbc_lblLeftSpeed.gridy = 0;
+		panelBotControlMotors.add(lblLeftSpeed, gbc_lblLeftSpeed);
+		
+		lblRightSpeed = new JLabel("Right Speed");
+		GridBagConstraints gbc_lblRightSpeed = new GridBagConstraints();
+		gbc_lblRightSpeed.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRightSpeed.gridx = 1;
+		gbc_lblRightSpeed.gridy = 0;
+		panelBotControlMotors.add(lblRightSpeed, gbc_lblRightSpeed);
+		
+		lblBothMotors = new JLabel("Both motors");
+		GridBagConstraints gbc_lblBothMotors = new GridBagConstraints();
+		gbc_lblBothMotors.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBothMotors.gridx = 2;
+		gbc_lblBothMotors.gridy = 0;
+		panelBotControlMotors.add(lblBothMotors, gbc_lblBothMotors);
+		
+		txtMotorLeft = new JTextField();
+		txtMotorLeft.setText("0");
+		txtMotorLeft.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_txtMotorLeft = new GridBagConstraints();
+		gbc_txtMotorLeft.insets = new Insets(0, 0, 5, 5);
+		gbc_txtMotorLeft.fill = GridBagConstraints.BOTH;
+		gbc_txtMotorLeft.gridx = 0;
+		gbc_txtMotorLeft.gridy = 1;
+		panelBotControlMotors.add(txtMotorLeft, gbc_txtMotorLeft);
+		txtMotorLeft.setColumns(10);
+		
+		txtMotorRight = new JTextField();
+		txtMotorRight.setText("0");
+		txtMotorRight.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_txtMotorRight = new GridBagConstraints();
+		gbc_txtMotorRight.insets = new Insets(0, 0, 5, 5);
+		gbc_txtMotorRight.fill = GridBagConstraints.BOTH;
+		gbc_txtMotorRight.gridx = 1;
+		gbc_txtMotorRight.gridy = 1;
+		panelBotControlMotors.add(txtMotorRight, gbc_txtMotorRight);
+		txtMotorRight.setColumns(10);
+		
+		btnMotorsStop = new JButton("Stop");
+		btnMotorsStop.setMnemonic('S');
+		GridBagConstraints gbc_btnMotorsStop = new GridBagConstraints();
+		gbc_btnMotorsStop.fill = GridBagConstraints.BOTH;
+		gbc_btnMotorsStop.insets = new Insets(0, 0, 5, 0);
+		gbc_btnMotorsStop.gridx = 2;
+		gbc_btnMotorsStop.gridy = 1;
+		panelBotControlMotors.add(btnMotorsStop, gbc_btnMotorsStop);
+		
+		btnMotorLeftForeward = new JButton("Foreward");
+		GridBagConstraints gbc_btnMotorLeftForeward = new GridBagConstraints();
+		gbc_btnMotorLeftForeward.fill = GridBagConstraints.BOTH;
+		gbc_btnMotorLeftForeward.insets = new Insets(0, 0, 5, 5);
+		gbc_btnMotorLeftForeward.gridx = 0;
+		gbc_btnMotorLeftForeward.gridy = 2;
+		panelBotControlMotors.add(btnMotorLeftForeward, gbc_btnMotorLeftForeward);
+		
+		btnMotorRightForeward = new JButton("Foreward");
+		GridBagConstraints gbc_btnMotorRightForeward = new GridBagConstraints();
+		gbc_btnMotorRightForeward.fill = GridBagConstraints.BOTH;
+		gbc_btnMotorRightForeward.insets = new Insets(0, 0, 5, 5);
+		gbc_btnMotorRightForeward.gridx = 1;
+		gbc_btnMotorRightForeward.gridy = 2;
+		panelBotControlMotors.add(btnMotorRightForeward, gbc_btnMotorRightForeward);
+		
+		btnMotorsForeward = new JButton("Foreward");
+		GridBagConstraints gbc_btnMotorsForeward = new GridBagConstraints();
+		gbc_btnMotorsForeward.fill = GridBagConstraints.BOTH;
+		gbc_btnMotorsForeward.insets = new Insets(0, 0, 5, 0);
+		gbc_btnMotorsForeward.gridx = 2;
+		gbc_btnMotorsForeward.gridy = 2;
+		panelBotControlMotors.add(btnMotorsForeward, gbc_btnMotorsForeward);
+		
+		btnMotorLeftBackward = new JButton("Backward");
+		GridBagConstraints gbc_btnMotorLeftBackward = new GridBagConstraints();
+		gbc_btnMotorLeftBackward.fill = GridBagConstraints.BOTH;
+		gbc_btnMotorLeftBackward.insets = new Insets(0, 0, 0, 5);
+		gbc_btnMotorLeftBackward.gridx = 0;
+		gbc_btnMotorLeftBackward.gridy = 3;
+		panelBotControlMotors.add(btnMotorLeftBackward, gbc_btnMotorLeftBackward);
+		
+		btnMotorRightBackward = new JButton("Backward");
+		GridBagConstraints gbc_btnMotorRightBackward = new GridBagConstraints();
+		gbc_btnMotorRightBackward.fill = GridBagConstraints.BOTH;
+		gbc_btnMotorRightBackward.insets = new Insets(0, 0, 0, 5);
+		gbc_btnMotorRightBackward.gridx = 1;
+		gbc_btnMotorRightBackward.gridy = 3;
+		panelBotControlMotors.add(btnMotorRightBackward, gbc_btnMotorRightBackward);
+		
+		btnMotorsBackward = new JButton("Backward");
+		GridBagConstraints gbc_btnMotorsBackward = new GridBagConstraints();
+		gbc_btnMotorsBackward.fill = GridBagConstraints.BOTH;
+		gbc_btnMotorsBackward.gridx = 2;
+		gbc_btnMotorsBackward.gridy = 3;
+		panelBotControlMotors.add(btnMotorsBackward, gbc_btnMotorsBackward);
 		
 		panelDebugInterface = new JPanel();
 		tabbedPane.addTab("Debugging", null, panelDebugInterface, null);
