@@ -48,7 +48,7 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 				if( arg0.getStateChange() == ItemEvent.SELECTED ){
 					String libName = gui.cmbDebugSerialLibraries.getItemAt( gui.cmbDebugSerialLibraries.getSelectedIndex() );
 					ftdi.selectLibByName(libName);
-//					updateDevicesModel();
+					updateDevicesModel();
 				}
 			}
 		});
@@ -162,7 +162,7 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 		gui.cmbDebugSerialLibraries.setSelectedItem( ftdi.getSelectedLibName() );
 		
 		// update devices list
-//		updateDevicesModel();
+		updateDevicesModel();
 	}
 	
 	private void updateDevicesModel(){
@@ -178,14 +178,54 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 	
 	private void processCommand(DebugCommands command, List<Byte> data){
 		
-		log.debug("Command {} and data {}", command, data.toArray());
+		switch( command ){
+		case BOT_ID:
+			break;
+			
+		case BOT_PRODUCT:
+			break;
+			
+		case BOT_PUBLISHER:
+			gui.lblDebugPublisher.setText(dataToString(data));
+			break;
+			
+		case BOT_VERSION:
+			break;
+			
+		case HELP:
+			break;
+			
+		case LED_RGB_ALL_OFF:
+			break;
+			
+		case LED_RGB_ALL_ON:
+			break;
+			
+		case LED_STATUS_OFF:
+			break;
+			
+		case LED_STATUS_ON:
+			break;
+			
+		case MOTORS_BWD_HALF_SPEED:
+			break;
+			
+		case MOTORS_FWD_HALF_SPEED:
+			break;
+			
+		case MOTORS_STOP:
+			break;
+			
+		}
 		
+	}
+	
+	private String dataToString(List<Byte> data){
 		String s = "";
 		for( Byte b : data ){
 			s += (char)((byte) b);
 		}
-		log.debug("string: {}", s);
-		
+		return s;
 	}
 
 	@Override
