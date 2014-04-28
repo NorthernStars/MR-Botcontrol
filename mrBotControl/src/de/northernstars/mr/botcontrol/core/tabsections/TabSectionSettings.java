@@ -109,6 +109,7 @@ public class TabSectionSettings extends TabSection {
 		gui.cmbDevices.setEnabled(en);
 		gui.cmbParity.setEnabled(en);
 		gui.cmbStopBits.setEnabled(en);
+		gui.cmbSerialLibraries.setEnabled(en);
 		gui.txtDevice.setEnabled(en);
 		
 		// set texts
@@ -117,17 +118,20 @@ public class TabSectionSettings extends TabSection {
 	}
 	
 	private void updateLibsModel(){
-		// update items list
-		libsModel.removeAllElements();
-		for( String lib : control.getFtdi().getAvailableLibNames() ){
-			libsModel.addElement(lib);
+		if( !control.getFtdi().isConnected() ){
+			// update items list
+			libsModel.removeAllElements();
+			for( String lib : control.getFtdi().getAvailableLibNames() ){
+				libsModel.addElement(lib);
+			}
+			
+			// set selected item
+			gui.cmbSerialLibraries.setSelectedItem( control.getFtdi().getSelectedLibName() );
+			
+			// update devices list
+			updateDevicesModel();
 		}
 		
-		// set selected item
-		gui.cmbSerialLibraries.setSelectedItem( control.getFtdi().getSelectedLibName() );
-		
-		// update devices list
-		updateDevicesModel();
 		updateGuiComponentsEnabled();
 	}
 	
