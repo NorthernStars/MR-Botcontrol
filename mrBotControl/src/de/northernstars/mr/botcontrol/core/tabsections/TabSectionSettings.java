@@ -1,5 +1,6 @@
 package de.northernstars.mr.botcontrol.core.tabsections;
 
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -89,6 +90,8 @@ public class TabSectionSettings extends TabSection {
 		
 		// update models
 		updateLibsModel();
+		
+		log.debug("Current thread: {}", Thread.currentThread().getName());
 	}
 	
 	private void updateGuiComponentsEnabled(){
@@ -129,15 +132,15 @@ public class TabSectionSettings extends TabSection {
 		updateGuiComponentsEnabled();
 	}
 	
-	private void updateDevicesModel(){
+	synchronized private void updateDevicesModel(){
 		// update items list
-		devsModel.removeAllElements();
+		devsModel.removeAllElements();		
 		for( SerialDevice dev : control.getFtdi().getAvailableDevices() ){
 			devsModel.addElement(dev.toString());
 		}
 		
 		// set manual device edit
-		gui.txtDevice.setText( gui.cmbDevices.getItemAt(gui.cmbDevices.getSelectedIndex()) );
+		gui.txtDevice.setText( gui.cmbDevices.getItemAt(gui.cmbDevices.getSelectedIndex()) );		
 	}
 
 	@Override

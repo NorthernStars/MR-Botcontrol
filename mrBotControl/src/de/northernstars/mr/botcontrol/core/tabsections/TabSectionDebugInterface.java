@@ -48,7 +48,7 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 				if( arg0.getStateChange() == ItemEvent.SELECTED ){
 					String libName = gui.cmbDebugSerialLibraries.getItemAt( gui.cmbDebugSerialLibraries.getSelectedIndex() );
 					ftdi.selectLibByName(libName);
-					updateDevicesModel();
+//					updateDevicesModel();
 				}
 			}
 		});
@@ -162,7 +162,7 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 		gui.cmbDebugSerialLibraries.setSelectedItem( ftdi.getSelectedLibName() );
 		
 		// update devices list
-		updateDevicesModel();
+//		updateDevicesModel();
 	}
 	
 	private void updateDevicesModel(){
