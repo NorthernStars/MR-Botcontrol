@@ -40,6 +40,7 @@ import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import de.northernstars.mr.botcontrol.core.protocol.LEDAnimations;
 
 /**
  * Main frame GUI.
@@ -103,7 +104,7 @@ public class MainFrame extends JFrame {
 	public JLabel lblChangeBotIDTo;
 	public JTextField txtBotIDChangeTo;
 	public JButton btnChangeBotID;
-	public JButton btnTestFirst;
+	public JButton btnTestBots;
 	public JPanel panelBotControlMotors;
 	public JLabel lblLeftSpeed;
 	public JLabel lblRightSpeed;
@@ -117,6 +118,36 @@ public class MainFrame extends JFrame {
 	public JButton btnMotorsForeward;
 	public JButton btnMotorsBackward;
 	public JLabel lblBothMotors;
+	private JPanel panelBotControlLEDs;
+	private JButton btnLEDStatus;
+	private JButton btnLEDAllOn;
+	private JLabel lblLEDAnimation;
+	private JComboBox<LEDAnimations> cmbLEDAnimation;
+	private JButton btnLEDAnimation;
+	private JPanel panel_6;
+	private JLabel lblLEDColorRed;
+	private JLabel lblLEDColorGreen;
+	private JLabel lblLEDColorBlue;
+	private JLabel lblLED1;
+	private JLabel lblLED2;
+	private JLabel lblLED3;
+	private JLabel lblLED4;
+	private JTextField txtLED1Red;
+	private JTextField txtLED1Green;
+	private JTextField txtLED1Blue;
+	private JTextField txtLED2Red;
+	private JTextField txtLED2Green;
+	private JTextField txtLED2Blue;
+	private JTextField txtLED3Red;
+	private JTextField txtLED3Green;
+	private JTextField txtLED3Blue;
+	private JTextField txtLED4Red;
+	private JTextField txtLED4Green;
+	private JTextField txtLED4Blue;
+	private JButton btnLED1;
+	private JButton btnLED2;
+	private JButton btnLED3;
+	private JButton btnLED4;
 
 	/**
 	 * Launch the gui.
@@ -302,6 +333,8 @@ public class MainFrame extends JFrame {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,}));
 		
@@ -377,19 +410,13 @@ public class MainFrame extends JFrame {
 		gbc_btnChangeBotID.gridy = 0;
 		panelBotControlBotID.add(btnChangeBotID, gbc_btnChangeBotID);
 		
-		btnTestFirst = new JButton("Test First 30 Bots");
-		GridBagConstraints gbc_btnTestFirst = new GridBagConstraints();
-		gbc_btnTestFirst.gridx = 6;
-		gbc_btnTestFirst.gridy = 0;
-		panelBotControlBotID.add(btnTestFirst, gbc_btnTestFirst);
-		
 		panelBotControlMotors = new JPanel();
 		panelBotControlMotors.setBorder(new TitledBorder(null, "Motors", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelBotControl.add(panelBotControlMotors, "2, 4, fill, fill");
 		GridBagLayout gbl_panelBotControlMotors = new GridBagLayout();
-		gbl_panelBotControlMotors.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_panelBotControlMotors.columnWidths = new int[]{0, 0, 0, 0, 0};
 		gbl_panelBotControlMotors.rowHeights = new int[]{0, 40, 40, 40, 0};
-		gbl_panelBotControlMotors.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBotControlMotors.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panelBotControlMotors.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelBotControlMotors.setLayout(gbl_panelBotControlMotors);
 		
@@ -409,12 +436,18 @@ public class MainFrame extends JFrame {
 		
 		lblBothMotors = new JLabel("Both motors");
 		GridBagConstraints gbc_lblBothMotors = new GridBagConstraints();
-		gbc_lblBothMotors.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBothMotors.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBothMotors.gridx = 2;
 		gbc_lblBothMotors.gridy = 0;
 		panelBotControlMotors.add(lblBothMotors, gbc_lblBothMotors);
 		
 		txtMotorLeft = new JTextField();
+		txtMotorLeft.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtMotorLeft.selectAll();
+			}
+		});
 		txtMotorLeft.setText("0");
 		txtMotorLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_txtMotorLeft = new GridBagConstraints();
@@ -426,6 +459,12 @@ public class MainFrame extends JFrame {
 		txtMotorLeft.setColumns(10);
 		
 		txtMotorRight = new JTextField();
+		txtMotorRight.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtMotorRight.selectAll();
+			}
+		});
 		txtMotorRight.setText("0");
 		txtMotorRight.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_txtMotorRight = new GridBagConstraints();
@@ -440,10 +479,18 @@ public class MainFrame extends JFrame {
 		btnMotorsStop.setMnemonic('S');
 		GridBagConstraints gbc_btnMotorsStop = new GridBagConstraints();
 		gbc_btnMotorsStop.fill = GridBagConstraints.BOTH;
-		gbc_btnMotorsStop.insets = new Insets(0, 0, 5, 0);
+		gbc_btnMotorsStop.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMotorsStop.gridx = 2;
 		gbc_btnMotorsStop.gridy = 1;
 		panelBotControlMotors.add(btnMotorsStop, gbc_btnMotorsStop);
+		
+		btnTestBots = new JButton("Test First 30 Bots");
+		GridBagConstraints gbc_btnTestBots = new GridBagConstraints();
+		gbc_btnTestBots.fill = GridBagConstraints.BOTH;
+		gbc_btnTestBots.gridheight = 3;
+		gbc_btnTestBots.gridx = 3;
+		gbc_btnTestBots.gridy = 1;
+		panelBotControlMotors.add(btnTestBots, gbc_btnTestBots);
 		
 		btnMotorLeftForeward = new JButton("Foreward");
 		GridBagConstraints gbc_btnMotorLeftForeward = new GridBagConstraints();
@@ -464,7 +511,7 @@ public class MainFrame extends JFrame {
 		btnMotorsForeward = new JButton("Foreward");
 		GridBagConstraints gbc_btnMotorsForeward = new GridBagConstraints();
 		gbc_btnMotorsForeward.fill = GridBagConstraints.BOTH;
-		gbc_btnMotorsForeward.insets = new Insets(0, 0, 5, 0);
+		gbc_btnMotorsForeward.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMotorsForeward.gridx = 2;
 		gbc_btnMotorsForeward.gridy = 2;
 		panelBotControlMotors.add(btnMotorsForeward, gbc_btnMotorsForeward);
@@ -487,10 +534,365 @@ public class MainFrame extends JFrame {
 		
 		btnMotorsBackward = new JButton("Backward");
 		GridBagConstraints gbc_btnMotorsBackward = new GridBagConstraints();
+		gbc_btnMotorsBackward.insets = new Insets(0, 0, 0, 5);
 		gbc_btnMotorsBackward.fill = GridBagConstraints.BOTH;
 		gbc_btnMotorsBackward.gridx = 2;
 		gbc_btnMotorsBackward.gridy = 3;
 		panelBotControlMotors.add(btnMotorsBackward, gbc_btnMotorsBackward);
+		
+		panelBotControlLEDs = new JPanel();
+		panelBotControlLEDs.setBorder(new TitledBorder(null, "LEDs", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelBotControl.add(panelBotControlLEDs, "2, 6, fill, fill");
+		GridBagLayout gbl_panelBotControlLEDs = new GridBagLayout();
+		gbl_panelBotControlLEDs.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_panelBotControlLEDs.rowHeights = new int[]{0, 0, 0};
+		gbl_panelBotControlLEDs.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBotControlLEDs.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		panelBotControlLEDs.setLayout(gbl_panelBotControlLEDs);
+		
+		btnLEDStatus = new JButton("Status LED on");
+		GridBagConstraints gbc_btnLEDStatus = new GridBagConstraints();
+		gbc_btnLEDStatus.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLEDStatus.gridx = 0;
+		gbc_btnLEDStatus.gridy = 0;
+		panelBotControlLEDs.add(btnLEDStatus, gbc_btnLEDStatus);
+		
+		btnLEDAllOn = new JButton("All RGB LEDs on");
+		GridBagConstraints gbc_btnLEDAllOn = new GridBagConstraints();
+		gbc_btnLEDAllOn.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLEDAllOn.gridx = 1;
+		gbc_btnLEDAllOn.gridy = 0;
+		panelBotControlLEDs.add(btnLEDAllOn, gbc_btnLEDAllOn);
+		
+		lblLEDAnimation = new JLabel("LED Animation:");
+		lblLEDAnimation.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints gbc_lblLEDAnimation = new GridBagConstraints();
+		gbc_lblLEDAnimation.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLEDAnimation.anchor = GridBagConstraints.EAST;
+		gbc_lblLEDAnimation.gridx = 2;
+		gbc_lblLEDAnimation.gridy = 0;
+		panelBotControlLEDs.add(lblLEDAnimation, gbc_lblLEDAnimation);
+		
+		cmbLEDAnimation = new JComboBox<LEDAnimations>();
+		cmbLEDAnimation.setModel(new DefaultComboBoxModel<LEDAnimations>(LEDAnimations.values()));
+		GridBagConstraints gbc_cmbLEDAnimation = new GridBagConstraints();
+		gbc_cmbLEDAnimation.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbLEDAnimation.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbLEDAnimation.gridx = 3;
+		gbc_cmbLEDAnimation.gridy = 0;
+		panelBotControlLEDs.add(cmbLEDAnimation, gbc_cmbLEDAnimation);
+		
+		btnLEDAnimation = new JButton("Set Animation");
+		GridBagConstraints gbc_btnLEDAnimation = new GridBagConstraints();
+		gbc_btnLEDAnimation.insets = new Insets(0, 0, 5, 0);
+		gbc_btnLEDAnimation.gridx = 4;
+		gbc_btnLEDAnimation.gridy = 0;
+		panelBotControlLEDs.add(btnLEDAnimation, gbc_btnLEDAnimation);
+		
+		panel_6 = new JPanel();
+		GridBagConstraints gbc_panel_6 = new GridBagConstraints();
+		gbc_panel_6.anchor = GridBagConstraints.NORTH;
+		gbc_panel_6.gridwidth = 5;
+		gbc_panel_6.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_6.fill = GridBagConstraints.HORIZONTAL;
+		gbc_panel_6.gridx = 0;
+		gbc_panel_6.gridy = 1;
+		panelBotControlLEDs.add(panel_6, gbc_panel_6);
+		GridBagLayout gbl_panel_6 = new GridBagLayout();
+		gbl_panel_6.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_panel_6.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gbl_panel_6.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+		gbl_panel_6.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
+		panel_6.setLayout(gbl_panel_6);
+		
+		lblLED1 = new JLabel("LED 1");
+		GridBagConstraints gbc_lblLED1 = new GridBagConstraints();
+		gbc_lblLED1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLED1.gridx = 1;
+		gbc_lblLED1.gridy = 0;
+		panel_6.add(lblLED1, gbc_lblLED1);
+		
+		lblLED2 = new JLabel("LED 2");
+		GridBagConstraints gbc_lblLED2 = new GridBagConstraints();
+		gbc_lblLED2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLED2.gridx = 2;
+		gbc_lblLED2.gridy = 0;
+		panel_6.add(lblLED2, gbc_lblLED2);
+		
+		lblLED3 = new JLabel("LED 3");
+		GridBagConstraints gbc_lblLED3 = new GridBagConstraints();
+		gbc_lblLED3.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLED3.gridx = 3;
+		gbc_lblLED3.gridy = 0;
+		panel_6.add(lblLED3, gbc_lblLED3);
+		
+		lblLED4 = new JLabel("LED 4");
+		GridBagConstraints gbc_lblLED4 = new GridBagConstraints();
+		gbc_lblLED4.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLED4.gridx = 4;
+		gbc_lblLED4.gridy = 0;
+		panel_6.add(lblLED4, gbc_lblLED4);
+		
+		lblLEDColorRed = new JLabel("Red:");
+		lblLEDColorRed.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints gbc_lblLEDColorRed = new GridBagConstraints();
+		gbc_lblLEDColorRed.anchor = GridBagConstraints.EAST;
+		gbc_lblLEDColorRed.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLEDColorRed.gridx = 0;
+		gbc_lblLEDColorRed.gridy = 1;
+		panel_6.add(lblLEDColorRed, gbc_lblLEDColorRed);
+		
+		txtLED1Red = new JTextField();
+		txtLED1Red.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED1Red.selectAll();
+			}
+		});
+		txtLED1Red.setHorizontalAlignment(SwingConstants.CENTER);
+		txtLED1Red.setText("0");
+		GridBagConstraints gbc_txtLED1Red = new GridBagConstraints();
+		gbc_txtLED1Red.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED1Red.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED1Red.gridx = 1;
+		gbc_txtLED1Red.gridy = 1;
+		panel_6.add(txtLED1Red, gbc_txtLED1Red);
+		txtLED1Red.setColumns(10);
+		
+		txtLED1Green = new JTextField();
+		txtLED1Green.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED1Green.selectAll();
+			}
+		});
+		txtLED1Green.setHorizontalAlignment(SwingConstants.CENTER);
+		txtLED1Green.setText("0");
+		GridBagConstraints gbc_txtLED1Green = new GridBagConstraints();
+		gbc_txtLED1Green.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED1Green.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED1Green.gridx = 1;
+		gbc_txtLED1Green.gridy = 2;
+		panel_6.add(txtLED1Green, gbc_txtLED1Green);
+		txtLED1Green.setColumns(10);		
+		txtLED1Blue = new JTextField();
+		txtLED1Blue.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED1Blue.selectAll();
+			}
+		});
+		txtLED1Blue.setText("0");
+		txtLED1Blue.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_txtLED1Blue = new GridBagConstraints();
+		gbc_txtLED1Blue.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED1Blue.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED1Blue.gridx = 1;
+		gbc_txtLED1Blue.gridy = 3;
+		panel_6.add(txtLED1Blue, gbc_txtLED1Blue);
+		txtLED1Blue.setColumns(10);
+		
+		txtLED2Red = new JTextField();
+		txtLED2Red.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED2Red.selectAll();
+			}
+		});
+		txtLED2Red.setHorizontalAlignment(SwingConstants.CENTER);
+		txtLED2Red.setText("0");
+		GridBagConstraints gbc_txtLED2Red = new GridBagConstraints();
+		gbc_txtLED2Red.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED2Red.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED2Red.gridx = 2;
+		gbc_txtLED2Red.gridy = 1;
+		panel_6.add(txtLED2Red, gbc_txtLED2Red);
+		txtLED2Red.setColumns(10);
+		
+		txtLED2Green = new JTextField();
+		txtLED2Green.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED2Green.selectAll();
+			}
+		});		
+		txtLED2Green.setHorizontalAlignment(SwingConstants.CENTER);
+		txtLED2Green.setText("0");
+		GridBagConstraints gbc_txtLED2Green = new GridBagConstraints();
+		gbc_txtLED2Green.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED2Green.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED2Green.gridx = 2;
+		gbc_txtLED2Green.gridy = 2;
+		panel_6.add(txtLED2Green, gbc_txtLED2Green);
+		txtLED2Green.setColumns(10);		
+		txtLED2Blue = new JTextField();
+		txtLED2Blue.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED2Blue.selectAll();
+			}
+		});
+		txtLED2Blue.setText("0");
+		txtLED2Blue.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_txtLED2Blue = new GridBagConstraints();
+		gbc_txtLED2Blue.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED2Blue.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED2Blue.gridx = 2;
+		gbc_txtLED2Blue.gridy = 3;
+		panel_6.add(txtLED2Blue, gbc_txtLED2Blue);
+		txtLED2Blue.setColumns(10);
+		
+		txtLED3Red = new JTextField();
+		txtLED3Red.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED3Red.selectAll();
+			}
+		});
+		
+		txtLED3Red.setHorizontalAlignment(SwingConstants.CENTER);
+		txtLED3Red.setText("0");
+		GridBagConstraints gbc_txtLED3Red = new GridBagConstraints();
+		gbc_txtLED3Red.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED3Red.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED3Red.gridx = 3;
+		gbc_txtLED3Red.gridy = 1;
+		panel_6.add(txtLED3Red, gbc_txtLED3Red);
+		txtLED3Red.setColumns(10);
+		
+		txtLED3Green = new JTextField();
+		txtLED3Green.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED3Green.selectAll();
+			}
+		});		
+		txtLED3Green.setHorizontalAlignment(SwingConstants.CENTER);
+		txtLED3Green.setText("0");
+		GridBagConstraints gbc_txtLED3Green = new GridBagConstraints();
+		gbc_txtLED3Green.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED3Green.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED3Green.gridx = 3;
+		gbc_txtLED3Green.gridy = 2;
+		panel_6.add(txtLED3Green, gbc_txtLED3Green);
+		txtLED3Green.setColumns(10);		
+		txtLED3Blue = new JTextField();
+		txtLED3Blue.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED3Blue.selectAll();
+			}
+		});
+		txtLED3Blue.setText("0");
+		txtLED3Blue.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_txtLED3Blue = new GridBagConstraints();
+		gbc_txtLED3Blue.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED3Blue.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED3Blue.gridx = 3;
+		gbc_txtLED3Blue.gridy = 3;
+		panel_6.add(txtLED3Blue, gbc_txtLED3Blue);
+		txtLED3Blue.setColumns(10);
+		
+		txtLED4Red = new JTextField();
+		txtLED4Red.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED4Red.selectAll();
+			}
+		});
+		
+		txtLED4Red.setHorizontalAlignment(SwingConstants.CENTER);
+		txtLED4Red.setText("0");
+		GridBagConstraints gbc_txtLED4Red = new GridBagConstraints();
+		gbc_txtLED4Red.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED4Red.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED4Red.gridx = 4;
+		gbc_txtLED4Red.gridy = 1;
+		panel_6.add(txtLED4Red, gbc_txtLED4Red);
+		txtLED4Red.setColumns(10);
+		
+		txtLED4Green = new JTextField();
+		txtLED4Green.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED4Green.selectAll();
+			}
+		});		
+		txtLED4Green.setHorizontalAlignment(SwingConstants.CENTER);
+		txtLED4Green.setText("0");
+		GridBagConstraints gbc_txtLED4Green = new GridBagConstraints();
+		gbc_txtLED4Green.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED4Green.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED4Green.gridx = 4;
+		gbc_txtLED4Green.gridy = 2;
+		panel_6.add(txtLED4Green, gbc_txtLED4Green);
+		txtLED4Green.setColumns(10);		
+		txtLED4Blue = new JTextField();
+		txtLED4Blue.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLED4Blue.selectAll();
+			}
+		});
+		txtLED4Blue.setText("0");
+		txtLED4Blue.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_txtLED4Blue = new GridBagConstraints();
+		gbc_txtLED4Blue.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLED4Blue.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLED4Blue.gridx = 4;
+		gbc_txtLED4Blue.gridy = 3;
+		panel_6.add(txtLED4Blue, gbc_txtLED4Blue);
+		txtLED4Blue.setColumns(10);
+		
+		lblLEDColorGreen = new JLabel("Green:");
+		lblLEDColorGreen.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints gbc_lblLEDColorGreen = new GridBagConstraints();
+		gbc_lblLEDColorGreen.anchor = GridBagConstraints.EAST;
+		gbc_lblLEDColorGreen.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLEDColorGreen.gridx = 0;
+		gbc_lblLEDColorGreen.gridy = 2;
+		panel_6.add(lblLEDColorGreen, gbc_lblLEDColorGreen);
+		
+		lblLEDColorBlue = new JLabel("Blue:");
+		lblLEDColorBlue.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints gbc_lblLEDColorBlue = new GridBagConstraints();
+		gbc_lblLEDColorBlue.anchor = GridBagConstraints.EAST;
+		gbc_lblLEDColorBlue.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLEDColorBlue.gridx = 0;
+		gbc_lblLEDColorBlue.gridy = 3;
+		panel_6.add(lblLEDColorBlue, gbc_lblLEDColorBlue);
+		
+		btnLED1 = new JButton("LED 1 on");
+		GridBagConstraints gbc_btnLED1 = new GridBagConstraints();
+		gbc_btnLED1.fill = GridBagConstraints.BOTH;
+		gbc_btnLED1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnLED1.gridx = 1;
+		gbc_btnLED1.gridy = 4;
+		panel_6.add(btnLED1, gbc_btnLED1);
+		
+		btnLED2 = new JButton("LED 2 on");
+		GridBagConstraints gbc_btnLED2 = new GridBagConstraints();
+		gbc_btnLED2.fill = GridBagConstraints.BOTH;
+		gbc_btnLED2.insets = new Insets(0, 0, 0, 5);
+		gbc_btnLED2.gridx = 2;
+		gbc_btnLED2.gridy = 4;
+		panel_6.add(btnLED2, gbc_btnLED2);
+		
+		btnLED3 = new JButton("LED 3 on");
+		GridBagConstraints gbc_btnLED3 = new GridBagConstraints();
+		gbc_btnLED3.fill = GridBagConstraints.BOTH;
+		gbc_btnLED3.insets = new Insets(0, 0, 0, 5);
+		gbc_btnLED3.gridx = 3;
+		gbc_btnLED3.gridy = 4;
+		panel_6.add(btnLED3, gbc_btnLED3);
+		
+		btnLED4 = new JButton("LED 4 on");
+		GridBagConstraints gbc_btnLED4 = new GridBagConstraints();
+		gbc_btnLED4.fill = GridBagConstraints.BOTH;
+		gbc_btnLED4.insets = new Insets(0, 0, 0, 5);
+		gbc_btnLED4.gridx = 4;
+		gbc_btnLED4.gridy = 4;
+		panel_6.add(btnLED4, gbc_btnLED4);
 		
 		panelDebugInterface = new JPanel();
 		tabbedPane.addTab("Debugging", null, panelDebugInterface, null);
@@ -706,5 +1108,4 @@ public class MainFrame extends JFrame {
 			listener.frameLoaded(this);
 		}
 	}
-
 }

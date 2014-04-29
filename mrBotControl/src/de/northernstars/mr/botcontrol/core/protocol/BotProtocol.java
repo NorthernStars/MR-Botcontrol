@@ -68,10 +68,126 @@ public class BotProtocol {
 		return new BotProtocolCommand(BotProtocolCommands.LEDS_OFF);
 	}
 	
+
+	/**
+	 * Switching a led on or off
+	 * @param led	{@link LEDS} to set
+	 * @param on	{@code true} if to switch led on, {@code false} otherwise
+	 * @return		{@link BotProtocolCommand}
+	 */
+	public static BotProtocolCommand ledSwitchOnOff(LEDS led, boolean on){
+		BotProtocolCommands cmd = BotProtocolCommands.LED_OFF;
+		if( on ){
+			cmd = BotProtocolCommands.LED_ON;
+		}
+		
+		switch(led){
+		case LED1:
+			return new BotProtocolCommand(cmd, 0x01);
+			
+		case LED2:
+			return new BotProtocolCommand(cmd, 0x02);
+			
+		case LED3:
+			return new BotProtocolCommand(cmd, 0x03);
+			
+		default:
+			return new BotProtocolCommand(cmd, 0x04);	
+		}
+	}
+	
+	/**
+	 * Setting red led color
+	 * @param led		{@link LEDS} to set color of
+	 * @param color		{@link Integer} color between 0 and 255
+	 * @return			{@link BotProtocolCommand}
+	 */
+	public static BotProtocolCommand setLEDColorRed(LEDS led, int color){
+		byte bColor = adjustColor(color);
+		
+		switch(led){
+		case LED1:
+			return new BotProtocolCommand(BotProtocolCommands.LED_1_RED, bColor);
+			
+		case LED2:
+			return new BotProtocolCommand(BotProtocolCommands.LED_2_RED, bColor);
+			
+		case LED3:
+			return new BotProtocolCommand(BotProtocolCommands.LED_3_RED, bColor);
+			
+		default:
+			return new BotProtocolCommand(BotProtocolCommands.LED_4_RED, bColor);
+		}		
+	}
+	
+	/**
+	 * Setting red green color
+	 * @param led		{@link LEDS} to set color of
+	 * @param color		{@link Integer} color between 0 and 255
+	 * @return			{@link BotProtocolCommand}
+	 */
+	public static BotProtocolCommand setLEDColorGreen(LEDS led, int color){
+		byte bColor = adjustColor(color);
+		
+		switch(led){
+		case LED1:
+			return new BotProtocolCommand(BotProtocolCommands.LED_1_GREEN, bColor);
+			
+		case LED2:
+			return new BotProtocolCommand(BotProtocolCommands.LED_2_GREEN, bColor);
+			
+		case LED3:
+			return new BotProtocolCommand(BotProtocolCommands.LED_3_GREEN, bColor);
+			
+		default:
+			return new BotProtocolCommand(BotProtocolCommands.LED_4_GREEN, bColor);
+		}		
+	}
+	
+	/**
+	 * Setting red blue color
+	 * @param led		{@link LEDS} to set color of
+	 * @param color		{@link Integer} color between 0 and 255
+	 * @return			{@link BotProtocolCommand}
+	 */
+	public static BotProtocolCommand setLEDColorBlue(LEDS led, int color){
+		byte bColor = adjustColor(color);
+		
+		switch(led){
+		case LED1:
+			return new BotProtocolCommand(BotProtocolCommands.LED_1_BLUE, bColor);
+			
+		case LED2:
+			return new BotProtocolCommand(BotProtocolCommands.LED_2_BLUE, bColor);
+			
+		case LED3:
+			return new BotProtocolCommand(BotProtocolCommands.LED_3_BLUE, bColor);
+			
+		default:
+			return new BotProtocolCommand(BotProtocolCommands.LED_4_BLUE, bColor);
+		}		
+	}
+	
+	/**
+	 * Adjusting color value to valid data byte
+	 * @param color		{@link Integer} color value
+	 * @return			Valid data {@link Byte}
+	 */
+	private static byte adjustColor(int color){
+		if( color < 0 ){
+			color = color * -1;
+		}
+		if( color > 255 ){
+			color = 255;
+		}
+		
+		return (byte) color;
+	}
+	
 	/**
 	 * Adjusting speed value to valid data byte.
-	 * @param speed	{@link Integer} speed value
-	 * @return		Valid data {@link Byte}
+	 * @param speed		{@link Integer} speed value
+	 * @return			Valid data {@link Byte}
 	 */
 	private static byte adjustSpeed(int speed){
 		// Limit min and max value
