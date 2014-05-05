@@ -6,29 +6,38 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.hanneseilers.jftdiserial.core.FTDISerial;
+import de.northernstars.mr.botcontrol.core.interfaces.CommandPackageRecievedListener;
 import de.northernstars.mr.botcontrol.core.interfaces.GuiFrameListener;
+import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSection;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionBotControl;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionDebugInterface;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionSettings;
 import de.northernstars.mr.botcontrol.gui.MainFrame;
+import de.northernstars.mr.botcontrol.network.MRBotControlServer;
 
 /**
  * Main class
  * @author Hannes Eilers
  *
  */
-public class MRBotControl implements GuiFrameListener {
+public class MRBotControl implements GuiFrameListener, CommandPackageRecievedListener {
 	
 	private static final Logger log = LogManager.getLogger();
 	private MainFrame gui = null;
 	private FTDISerial ftdi = new FTDISerial();
+	private MRBotControlServer server;
 
 	/**
 	 * Constructor
 	 */
 	public MRBotControl() {
 		MainFrame.showMainFrame(this);
+		server = new MRBotControlServer();
+		server.addCommandPackageRecievedListener(this);
+		
+		// start server
+		new Thread(server).start();
 	}
 	
 	/**
@@ -58,8 +67,6 @@ public class MRBotControl implements GuiFrameListener {
 		}
 	}	
 
-	
-
 	/**
 	 * @param args
 	 */
@@ -73,6 +80,12 @@ public class MRBotControl implements GuiFrameListener {
 	 */
 	public FTDISerial getFtdi() {
 		return ftdi;
+	}
+
+	@Override
+	public void commandPackageRecieved(BotProtocolSection[] sections) {
+		log.debug("Sending {}", (Object[]) sections);
+		new Thread( new DataWriter(getFtdi(), sections) ).start();
 	}	
 
 }

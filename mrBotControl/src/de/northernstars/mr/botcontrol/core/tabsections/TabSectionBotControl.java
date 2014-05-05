@@ -13,7 +13,7 @@ import javax.swing.event.ChangeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.hanneseilers.jftdiserial.core.FTDISerial;
+import de.northernstars.mr.botcontrol.core.DataWriter;
 import de.northernstars.mr.botcontrol.core.MRBotControl;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocol;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
@@ -331,27 +331,6 @@ public class TabSectionBotControl extends TabSection {
 	private synchronized void send(BotProtocolSection[] aSections){
 		log.debug("Sending {}", (Object[]) aSections);
 		new Thread( new DataWriter(control.getFtdi(), aSections) ).start();
-	}
-	
-	/**
-	 * Private class for writing data to ftdi device using async. thread.
-	 * @author Hannes Eilers
-	 *
-	 */
-	private class DataWriter implements Runnable{
-		private FTDISerial ftdi;
-		private BotProtocolSection[] sections;
-		
-		public DataWriter(FTDISerial aFtdi, BotProtocolSection[] aSections) {
-			ftdi = aFtdi;
-			sections = aSections;
-		}
-		
-		@Override
-		public void run() {
-			ftdi.write(
-					BotProtocol.generateDataFromSections(sections) );
-		}		
 	}
 	
 	/**
