@@ -169,6 +169,27 @@ public class BotProtocol {
 	}
 	
 	/**
+	 * Setting a led animation
+	 * @param animation		{@link LEDAnimations} to set
+	 * @return				{@link BotProtocolCommand}
+	 */
+	public static BotProtocolCommand ledAnimation(LEDAnimations animation){
+		return new BotProtocolCommand(BotProtocolCommands.LED_ANIMATION, animation.CMD);
+	}
+	
+	/**
+	 * Sets new bot id.<br>
+	 * ATTENTION:<br>
+	 * Be carful with this option!
+	 * Take care not to set two bots with the same id!
+	 * @param newBotID	{@link Integer} bot id to set
+	 * @return			{@link BotProtocolCommand}
+	 */
+	public static BotProtocolCommand changeBotID(int newBotID){
+		return new BotProtocolCommand(BotProtocolCommands.BOT_SET_ID, newBotID);
+	}
+	
+	/**
 	 * Adjusting color value to valid data byte
 	 * @param color		{@link Integer} color value
 	 * @return			Valid data {@link Byte}

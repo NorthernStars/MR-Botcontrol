@@ -9,8 +9,8 @@ public enum LEDAnimations {
 
 	NONE(0),
 	FADE(1),
-	RED_PULSED(2),
-	STROBE(3),
+	RED_PULSED(3),
+	STROBE(2),
 	LADY(4);
 	
 	public byte CMD;

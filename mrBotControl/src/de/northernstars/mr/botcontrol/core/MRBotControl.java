@@ -28,7 +28,6 @@ public class MRBotControl implements GuiFrameListener {
 	 * Constructor
 	 */
 	public MRBotControl() {
-		// TODO Auto-generated constructor stub
 		MainFrame.showMainFrame(this);
 	}
 	

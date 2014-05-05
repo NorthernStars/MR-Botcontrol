@@ -89,6 +89,17 @@ public class TabSectionSettings extends TabSection {
 			}
 		});
 		
+		gui.btnRefresh.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if( control.getFtdi().isConnected() ){
+					gui.btnConnect.doClick();
+				}
+				
+				updateDevicesModel();
+			}
+		});
+		
 		// update models
 		updateLibsModel();
 	}

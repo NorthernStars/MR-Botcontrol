@@ -61,7 +61,6 @@ public class MainFrame extends JFrame {
 	public JPanel panelSettings;
 	public JPanel panelBotControl;
 	public JPanel panelDebugInterface;
-	public JPanel panel;
 	public JLabel lblDevice;
 	public JButton btnConnect;
 	public JComboBox<String> cmbDevices;
@@ -98,16 +97,14 @@ public class MainFrame extends JFrame {
 	public JLabel lblDebugBotID;
 	public JLabel lblProtocolVersion;
 	public JComboBox<ProtocolVersions> cmbProtocolVersion;
-	public JPanel panelBotControlBotID;
-	public JLabel lblBotId;
+	private JLabel lblBotId;
 	public JTextField txtBotID;
-	public JLabel lblChangeBotIDTo;
+	private JLabel lblChangeBotIDTo;
 	public JTextField txtBotIDChangeTo;
 	public JButton btnChangeBotID;
 	public JButton btnTestBots;
-	public JPanel panelBotControlMotors;
-	public JLabel lblLeftSpeed;
-	public JLabel lblRightSpeed;
+	private JLabel lblLeftSpeed;
+	private JLabel lblRightSpeed;
 	public JTextField txtMotorLeft;
 	public JTextField txtMotorRight;
 	public JButton btnMotorsStop;
@@ -117,13 +114,11 @@ public class MainFrame extends JFrame {
 	public JButton btnMotorRightBackward;
 	public JButton btnMotorsForeward;
 	public JButton btnMotorsBackward;
-	public JLabel lblBothMotors;
-	private JPanel panelBotControlLEDs;
-	private JButton btnLEDStatus;
-	private JButton btnLEDAllOn;
+	private JLabel lblBothMotors;
+	public JButton btnLEDStatus;
+	public JButton btnLEDAllOn;
 	private JLabel lblLEDAnimation;
-	private JComboBox<LEDAnimations> cmbLEDAnimation;
-	private JButton btnLEDAnimation;
+	public JComboBox<LEDAnimations> cmbLEDAnimation;
 	private JPanel panel_6;
 	private JLabel lblLEDColorRed;
 	private JLabel lblLEDColorGreen;
@@ -132,22 +127,24 @@ public class MainFrame extends JFrame {
 	private JLabel lblLED2;
 	private JLabel lblLED3;
 	private JLabel lblLED4;
-	private JTextField txtLED1Red;
-	private JTextField txtLED1Green;
-	private JTextField txtLED1Blue;
-	private JTextField txtLED2Red;
-	private JTextField txtLED2Green;
-	private JTextField txtLED2Blue;
-	private JTextField txtLED3Red;
-	private JTextField txtLED3Green;
-	private JTextField txtLED3Blue;
-	private JTextField txtLED4Red;
-	private JTextField txtLED4Green;
-	private JTextField txtLED4Blue;
-	private JButton btnLED1;
-	private JButton btnLED2;
-	private JButton btnLED3;
-	private JButton btnLED4;
+	public JTextField txtLED1Red;
+	public JTextField txtLED1Green;
+	public JTextField txtLED1Blue;
+	public JTextField txtLED2Red;
+	public JTextField txtLED2Green;
+	public JTextField txtLED2Blue;
+	public JTextField txtLED3Red;
+	public JTextField txtLED3Green;
+	public JTextField txtLED3Blue;
+	public JTextField txtLED4Red;
+	public JTextField txtLED4Green;
+	public JTextField txtLED4Blue;
+	public JButton btnLED1;
+	public JButton btnLED2;
+	public JButton btnLED3;
+	public JButton btnLED4;
+	public JButton btnRefresh;
+	public JLabel lblTestBotsStatus;
 
 	/**
 	 * Launch the gui.
@@ -171,7 +168,7 @@ public class MainFrame extends JFrame {
 	public MainFrame(GuiFrameListener listener) {
 		setTitle("MRBotControl");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 769, 600);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -219,21 +216,23 @@ public class MainFrame extends JFrame {
 				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,}));
 		
-		panel = new JPanel();
+		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Connection", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelSettings.add(panel, "2, 2, fill, fill");
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(50dlu;default):grow"),
+				ColumnSpec.decode("max(50dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(50dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(50dlu;default):grow"),
+				ColumnSpec.decode("max(50dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(56dlu;default)"),},
+				ColumnSpec.decode("max(56dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -254,19 +253,23 @@ public class MainFrame extends JFrame {
 		panel.add(lblSerialLibrary, "1, 1, right, default");
 		
 		cmbSerialLibraries = new JComboBox<String>();
-		panel.add(cmbSerialLibraries, "3, 1, 7, 1, fill, default");
+		panel.add(cmbSerialLibraries, "3, 1, 5, 1, fill, default");
 		
 		lblDevice = new JLabel("Device:");
 		lblDevice.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel.add(lblDevice, "1, 3, right, default");
 		
 		cmbDevices = new JComboBox<String>();
-		panel.add(cmbDevices, "3, 3, 7, 1, fill, default");
+		panel.add(cmbDevices, "3, 3, 5, 1, fill, default");
 		
 		btnConnect = new JButton("Connect");
 		btnConnect.setMnemonic('C');
 		panel.add(btnConnect, "11, 1, 1, 7");
 		getRootPane().setDefaultButton(btnConnect);
+		
+		btnRefresh = new JButton("Refresh");
+		btnRefresh.setMnemonic('R');
+		panel.add(btnRefresh, "9, 1, 1, 3");
 		
 		txtDevice = new JTextField();
 		panel.add(txtDevice, "3, 5, 7, 1, fill, default");
@@ -338,7 +341,7 @@ public class MainFrame extends JFrame {
 				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,}));
 		
-		panelBotControlBotID = new JPanel();
+		JPanel panelBotControlBotID = new JPanel();
 		panelBotControlBotID.setBorder(new TitledBorder(null, "Bot", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelBotControl.add(panelBotControlBotID, "2, 2, fill, fill");
 		GridBagLayout gbl_panelBotControlBotID = new GridBagLayout();
@@ -410,7 +413,7 @@ public class MainFrame extends JFrame {
 		gbc_btnChangeBotID.gridy = 0;
 		panelBotControlBotID.add(btnChangeBotID, gbc_btnChangeBotID);
 		
-		panelBotControlMotors = new JPanel();
+		JPanel panelBotControlMotors = new JPanel();
 		panelBotControlMotors.setBorder(new TitledBorder(null, "Motors", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelBotControl.add(panelBotControlMotors, "2, 4, fill, fill");
 		GridBagLayout gbl_panelBotControlMotors = new GridBagLayout();
@@ -485,9 +488,11 @@ public class MainFrame extends JFrame {
 		panelBotControlMotors.add(btnMotorsStop, gbc_btnMotorsStop);
 		
 		btnTestBots = new JButton("Test First 30 Bots");
+		btnTestBots.setMnemonic('T');
 		GridBagConstraints gbc_btnTestBots = new GridBagConstraints();
+		gbc_btnTestBots.insets = new Insets(0, 0, 5, 0);
 		gbc_btnTestBots.fill = GridBagConstraints.BOTH;
-		gbc_btnTestBots.gridheight = 3;
+		gbc_btnTestBots.gridheight = 2;
 		gbc_btnTestBots.gridx = 3;
 		gbc_btnTestBots.gridy = 1;
 		panelBotControlMotors.add(btnTestBots, gbc_btnTestBots);
@@ -509,6 +514,7 @@ public class MainFrame extends JFrame {
 		panelBotControlMotors.add(btnMotorRightForeward, gbc_btnMotorRightForeward);
 		
 		btnMotorsForeward = new JButton("Foreward");
+		btnMotorsForeward.setMnemonic('F');
 		GridBagConstraints gbc_btnMotorsForeward = new GridBagConstraints();
 		gbc_btnMotorsForeward.fill = GridBagConstraints.BOTH;
 		gbc_btnMotorsForeward.insets = new Insets(0, 0, 5, 5);
@@ -533,6 +539,7 @@ public class MainFrame extends JFrame {
 		panelBotControlMotors.add(btnMotorRightBackward, gbc_btnMotorRightBackward);
 		
 		btnMotorsBackward = new JButton("Backward");
+		btnMotorsBackward.setMnemonic('B');
 		GridBagConstraints gbc_btnMotorsBackward = new GridBagConstraints();
 		gbc_btnMotorsBackward.insets = new Insets(0, 0, 0, 5);
 		gbc_btnMotorsBackward.fill = GridBagConstraints.BOTH;
@@ -540,17 +547,26 @@ public class MainFrame extends JFrame {
 		gbc_btnMotorsBackward.gridy = 3;
 		panelBotControlMotors.add(btnMotorsBackward, gbc_btnMotorsBackward);
 		
-		panelBotControlLEDs = new JPanel();
+		lblTestBotsStatus = new JLabel("");
+		lblTestBotsStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblTestBotsStatus = new GridBagConstraints();
+		gbc_lblTestBotsStatus.fill = GridBagConstraints.BOTH;
+		gbc_lblTestBotsStatus.gridx = 3;
+		gbc_lblTestBotsStatus.gridy = 3;
+		panelBotControlMotors.add(lblTestBotsStatus, gbc_lblTestBotsStatus);
+		
+		JPanel panelBotControlLEDs = new JPanel();
 		panelBotControlLEDs.setBorder(new TitledBorder(null, "LEDs", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelBotControl.add(panelBotControlLEDs, "2, 6, fill, fill");
 		GridBagLayout gbl_panelBotControlLEDs = new GridBagLayout();
 		gbl_panelBotControlLEDs.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_panelBotControlLEDs.rowHeights = new int[]{0, 0, 0};
-		gbl_panelBotControlLEDs.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBotControlLEDs.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_panelBotControlLEDs.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panelBotControlLEDs.setLayout(gbl_panelBotControlLEDs);
 		
 		btnLEDStatus = new JButton("Status LED on");
+		btnLEDStatus.setMnemonic('L');
 		GridBagConstraints gbc_btnLEDStatus = new GridBagConstraints();
 		gbc_btnLEDStatus.insets = new Insets(0, 0, 5, 5);
 		gbc_btnLEDStatus.gridx = 0;
@@ -558,6 +574,7 @@ public class MainFrame extends JFrame {
 		panelBotControlLEDs.add(btnLEDStatus, gbc_btnLEDStatus);
 		
 		btnLEDAllOn = new JButton("All RGB LEDs on");
+		btnLEDAllOn.setMnemonic('R');
 		GridBagConstraints gbc_btnLEDAllOn = new GridBagConstraints();
 		gbc_btnLEDAllOn.insets = new Insets(0, 0, 5, 5);
 		gbc_btnLEDAllOn.gridx = 1;
@@ -582,17 +599,10 @@ public class MainFrame extends JFrame {
 		gbc_cmbLEDAnimation.gridy = 0;
 		panelBotControlLEDs.add(cmbLEDAnimation, gbc_cmbLEDAnimation);
 		
-		btnLEDAnimation = new JButton("Set Animation");
-		GridBagConstraints gbc_btnLEDAnimation = new GridBagConstraints();
-		gbc_btnLEDAnimation.insets = new Insets(0, 0, 5, 0);
-		gbc_btnLEDAnimation.gridx = 4;
-		gbc_btnLEDAnimation.gridy = 0;
-		panelBotControlLEDs.add(btnLEDAnimation, gbc_btnLEDAnimation);
-		
 		panel_6 = new JPanel();
 		GridBagConstraints gbc_panel_6 = new GridBagConstraints();
 		gbc_panel_6.anchor = GridBagConstraints.NORTH;
-		gbc_panel_6.gridwidth = 5;
+		gbc_panel_6.gridwidth = 4;
 		gbc_panel_6.insets = new Insets(0, 0, 0, 5);
 		gbc_panel_6.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel_6.gridx = 0;
