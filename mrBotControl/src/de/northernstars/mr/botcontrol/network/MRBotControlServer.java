@@ -9,8 +9,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXB;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -70,9 +68,9 @@ public class MRBotControlServer implements Runnable {
 	
 	/**
 	 * Notifies all listener about a new command set.
-	 * @param commandPackage	{@link MRBotControlCommandPackage}
+	 * @param commandPackage	{@link CommandPackage}
 	 */
-	private void notifyCommandPackaeRecievedListener(MRBotControlCommandPackage commandPackage){
+	private void notifyCommandPackaeRecievedListener(CommandPackage commandPackage){
 		// generate array if sections
 		BotProtocolSection[] sections = new BotProtocolSection[ commandPackage.getSections().size() ];
 		int i = 0;
@@ -90,6 +88,8 @@ public class MRBotControlServer implements Runnable {
 	@Override
 	public void run() {
 		
+		log.debug("Datagram socket server running.");
+		
 		while( active ){			
 			try {
 				
@@ -99,27 +99,28 @@ public class MRBotControlServer implements Runnable {
 				
 				InetAddress address = packet.getAddress();
 				int port = packet.getPort();
-				String data = new String( packet.getData(), 0, packet.getLength() );
+				String data = new String(packet.getData(), 0, packet.getLength());
 				
 				// check for connection request
-				MRBotControlConnectPackage connectDataPackage = JAXB.unmarshal(data, MRBotControlConnectPackage.class);
-				if( connectDataPackage != null ){
+				ProtocolRequestPackage connectDataPackage = ProtocolRequestPackage.fromXml(data);
+				if( connectDataPackage != null && connectDataPackage.getProtocolRevision() >= 0 ){
 					log.debug("{}:{} connecting with protocol revision {}.", address, port, connectDataPackage.getProtocolRevision());
 					if( connectDataPackage.getProtocolRevision() != 2 ){
 						connectDataPackage.setProtocolRevision(2);
-						connectDataPackage.setConnect(false);
+						connectDataPackage.setAccepted(false);
 					}
 					
 					// send connectDataPackage back
+					connectDataPackage.setAccepted(true);
 					byte[] buf = connectDataPackage.toXML().getBytes();
 					socket.send( new DatagramPacket(buf, buf.length, address, port) );
 				}
 				else{
 					
 					// convert data to 
-					MRBotControlCommandPackage commandPackage = JAXB.unmarshal(data, MRBotControlCommandPackage.class);
-					if( commandPackage != null && commandPackage.getProtocolRevision() == 2  ){
-						log.debug("Recieved data from {}:{} - protocol revision {}.", address, port, commandPackage.getProtocolRevision());
+					CommandPackage commandPackage = CommandPackage.fromXML(data);
+					if( commandPackage != null && commandPackage.getCommandProtocolRevision() == 2  ){
+						log.debug("Recieved data from {}:{} - protocol revision {}.", address, port, commandPackage.getCommandProtocolRevision());
 						notifyCommandPackaeRecievedListener(commandPackage);
 					}
 					
@@ -131,6 +132,8 @@ public class MRBotControlServer implements Runnable {
 			}
 			
 		}
+		
+		log.debug("Datagram socket server stopped.");
 	}
 	
 	/**

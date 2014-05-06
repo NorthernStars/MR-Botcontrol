@@ -10,6 +10,8 @@ public class BotProtocolCommand {
 	private BotProtocolCommands command;
 	private byte value = 0x00;
 	
+	public BotProtocolCommand(){}
+	
 	public BotProtocolCommand(BotProtocolCommands aCommand) {
 		command = aCommand;
 	}

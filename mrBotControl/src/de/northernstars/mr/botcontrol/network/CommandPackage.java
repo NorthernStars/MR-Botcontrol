@@ -1,5 +1,7 @@
 package de.northernstars.mr.botcontrol.network;
 
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,25 +9,22 @@ import javax.xml.bind.JAXB;
 
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
 
-public class MRBotControlCommandPackage {
+public class CommandPackage {
 
-	private int botID = 0;;
-	private int protocolRevision = 2;;
+	private int commandProtocolRevision = 2;;
 	private List<BotProtocolSection> sections = new ArrayList<BotProtocolSection>();
 	
 	/**
 	 * Default constructor
 	 */
-	public MRBotControlCommandPackage() {}
+	public CommandPackage() {}
 	
 	/**
 	 * Constructor
-	 * @param aBotID				{@link Integer} bot id
 	 * @param aProtocolRevision		{@link Integer} protocol revision
 	 */
-	public MRBotControlCommandPackage(int aBotID, int aProtocolRevision){
-		botID = aBotID;
-		protocolRevision = aProtocolRevision;
+	public CommandPackage(int aProtocolRevision){
+		commandProtocolRevision = aProtocolRevision;
 	}
 	
 	/**
@@ -45,18 +44,6 @@ public class MRBotControlCommandPackage {
 	}
 	
 	/**
-	 * @return the botID
-	 */
-	public int getBotID() {
-		return botID;
-	}
-	/**
-	 * @param botID the botID to set
-	 */
-	public void setBotID(int botID) {
-		this.botID = botID;
-	}
-	/**
 	 * @return the sections
 	 */
 	public List<BotProtocolSection> getSections() {
@@ -72,21 +59,35 @@ public class MRBotControlCommandPackage {
 	/**
 	 * @return the protocolRevision
 	 */
-	public int getProtocolRevision() {
-		return protocolRevision;
+	public int getCommandProtocolRevision() {
+		return commandProtocolRevision;
 	}
 
 	/**
 	 * @param protocolRevision the protocolRevision to set
 	 */
-	public void setProtocolRevision(int protocolRevision) {
-		this.protocolRevision = protocolRevision;
+	public void setCommandProtocolRevision(int protocolRevision) {
+		this.commandProtocolRevision = protocolRevision;
 	}
 	
+	/**
+	 * Converts {@link CommandPackage} to xml data {@link String}
+	 * @return
+	 */
 	public String toXml(){
-		String xml = null;
-		JAXB.marshal(this, xml);
-		return xml;
+		StringWriter writer = new StringWriter();
+		JAXB.marshal(this, writer);
+		return writer.toString();
+	}
+	
+	/**
+	 * Converts xml data {@link String} to {@link CommandPackage}
+	 * @param xml	xml data {@link String}
+	 * @return		{@link CommandPackage}
+	 */
+	public static CommandPackage fromXML(String xml){
+		StringReader reader = new StringReader(xml);
+		return JAXB.unmarshal(reader, CommandPackage.class);
 	}
 	
 }

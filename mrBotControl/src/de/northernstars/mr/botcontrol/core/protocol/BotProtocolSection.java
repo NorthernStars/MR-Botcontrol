@@ -13,6 +13,8 @@ public class BotProtocolSection {
 	private int botID = 0;
 	private List<BotProtocolCommand> commandList = new ArrayList<BotProtocolCommand>();
 	
+	public BotProtocolSection(){}
+	
 	/**
 	 * Constructor
 	 * @param aBotID	{@link Integer} bot id
