@@ -8,10 +8,7 @@ INSTALLATION
 
 1. Import project into eclipse.
 
-2. Copy librxtxSerial library of your OS
-   from lib folder to root folder.
-   
-3. Add librxtxSerial to build path.
+2. Import jFTDIserial from submodule
 
 
 
