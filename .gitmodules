@@ -1,3 +1,6 @@
 [submodule "libraries/jFTDIserial"]
 	path = libraries/jFTDIserial
 	url = https://github.com/hanneseilers/jFTDIserial.git
+[submodule "libraries"]
+	path = libraries
+	url = https://github.com/hanneseilers/jFTDIserial.git
