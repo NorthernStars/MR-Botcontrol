@@ -120,21 +120,35 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 	private void sendCommand(DebugCommands command){
 		synchronized (commandQue) {
 			
+			// add command to que
 			if( command != null ){
 				commandQue.add(command);
 				log.debug("Added command {} to que", command);
 			}
-			else{
-				if( commandQue.size() > 0 ){
-					log.debug("Sending {}", commandQue.get(0));
-					ftdi.write( commandQue.get(0).CMD );
-				}
+			
+			// check if to send command
+			if( commandQue.size() == 1 ){
+				sendFirstCommand();
 			}
 			
+			
 		}
-		
-		if( command != null ){
-			sendCommand(null);
+	}
+	
+	private synchronized void sendFirstCommand(){
+		synchronized (commandQue) {
+			
+			if( commandQue.size() > 0 ){
+				log.debug("SEND {}", commandQue.get(0));
+				new Thread(new Runnable() {					
+					@Override
+					public void run() {
+						ftdi.write( commandQue.get(0).CMD );
+					}
+				}).start();
+				
+			}
+			
 		}
 	}
 	
@@ -142,10 +156,10 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 		if( ftdi.isConnected() ){			
 			synchronized (commandQue) {
 				
-//				sendCommand(DebugCommands.BOT_ID);
+				sendCommand(DebugCommands.BOT_ID);
 				sendCommand(DebugCommands.BOT_PUBLISHER);
-//				sendCommand(DebugCommands.BOT_PRODUCT);
-//				sendCommand(DebugCommands.BOT_VERSION);
+				sendCommand(DebugCommands.BOT_PRODUCT);
+				sendCommand(DebugCommands.BOT_VERSION);
 				
 			}			
 		}
@@ -180,9 +194,11 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 		
 		switch( command ){
 		case BOT_ID:
+			gui.lblDebugBotID.setText( Integer.toString( (int) data.get(0) ) );
 			break;
 			
 		case BOT_PRODUCT:
+			gui.lblDebugProduct.setText(dataToString(data));
 			break;
 			
 		case BOT_PUBLISHER:
@@ -190,6 +206,7 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 			break;
 			
 		case BOT_VERSION:
+			gui.lblDebugVersion.setText(dataToString(data));
 			break;
 			
 		case HELP:
@@ -237,17 +254,23 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 
 	@Override
 	public void serialDataRecieved(byte data) {
+
+		DebugCommands cmd = null;
+		List<Byte> recvData = null;
 		
 		synchronized (commandQue) {			
 			
 			// check if transmission is complete
-			if( data == transmissionEnd ){				
-				// transmission complete > process command
-				processCommand(commandQue.get(0), recievedData);
+			if( data == transmissionEnd ){
+				log.debug("TRANS END {}:{}", commandQue.get(0), recievedData.toArray());
+				
+				// backup data
+				cmd = commandQue.get(0);
+				recvData = new ArrayList<Byte>(recievedData);
 				
 				// remove command from que
 				commandQue.remove(0);
-				recievedData.clear();				
+				recievedData.clear();
 			}
 			else{				
 				// add data to recieved data
@@ -255,6 +278,17 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 			}
 			
 		}
+		
+		// check if to process command
+		if( cmd != null ){
+			processCommand(cmd, recvData);			
+			
+			// send next command
+			sendFirstCommand();
+		}
+		
+		
+		
 	}
 
 }
