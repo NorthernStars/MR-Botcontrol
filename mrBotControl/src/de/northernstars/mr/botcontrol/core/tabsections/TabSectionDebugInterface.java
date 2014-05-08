@@ -93,6 +93,13 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 				}
 			}
 		});
+		
+		gui.btnDebugUpdateDeviceInfo.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				updateDeviceInfo();
+			}
+		});
 
 		gui.btnDebugLedStatus.addActionListener(new ActionListener() {			
 			@Override
@@ -250,6 +257,11 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 		if( gui.tabbedPane.getSelectedComponent() == gui.panelDebugInterface ){
 			updateLibsModel();
 		}
+		
+		synchronized (commandQue) {
+			commandQue.clear();
+			recievedData.clear();
+		}
 	}
 
 	@Override
@@ -258,25 +270,27 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 		DebugCommands cmd = null;
 		List<Byte> recvData = null;
 		
-		synchronized (commandQue) {			
+		synchronized (commandQue) {		
+			if( commandQue.size() > 0 ){
 			
-			// check if transmission is complete
-			if( data == transmissionEnd ){
-				log.debug("TRANS END {}:{}", commandQue.get(0), recievedData.toArray());
-				
-				// backup data
-				cmd = commandQue.get(0);
-				recvData = new ArrayList<Byte>(recievedData);
-				
-				// remove command from que
-				commandQue.remove(0);
-				recievedData.clear();
-			}
-			else{				
-				// add data to recieved data
-				recievedData.add( data );				
-			}
+				// check if transmission is complete
+				if( data == transmissionEnd ){
+					log.debug("TRANS END {}:{}", commandQue.get(0), recievedData.toArray());
+					
+					// backup data
+					cmd = commandQue.get(0);
+					recvData = new ArrayList<Byte>(recievedData);
+					
+					// remove command from que
+					commandQue.remove(0);
+					recievedData.clear();
+				}
+				else{				
+					// add data to recieved data
+					recievedData.add( data );				
+				}
 			
+			}
 		}
 		
 		// check if to process command

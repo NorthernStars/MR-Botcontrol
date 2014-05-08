@@ -8,11 +8,12 @@ import java.util.List;
 import javax.xml.bind.JAXB;
 
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
+import de.northernstars.mr.botcontrol.network.protocol.NetBotProtocolSection;
 
 public class CommandPackage {
 
 	private int commandProtocolRevision = 2;;
-	private List<BotProtocolSection> sections = new ArrayList<BotProtocolSection>();
+	private List<NetBotProtocolSection> sections = new ArrayList<NetBotProtocolSection>();
 	
 	/**
 	 * Default constructor
@@ -31,7 +32,7 @@ public class CommandPackage {
 	 * Adds a section
 	 * @param section	{@link BotProtocolSection} to add
 	 */
-	public boolean addSection(BotProtocolSection section){
+	public boolean addSection(NetBotProtocolSection section){
 		return sections.add(section);
 	}
 	
@@ -39,20 +40,20 @@ public class CommandPackage {
 	 * Removes a {@link BotProtocolSection} from list.
 	 * @param index		{@link Integer} index to remove
 	 */
-	public BotProtocolSection removeSections(int index){
+	public NetBotProtocolSection removeSections(int index){
 		return sections.remove(index);
 	}
 	
 	/**
 	 * @return the sections
 	 */
-	public List<BotProtocolSection> getSections() {
+	public List<NetBotProtocolSection> getSections() {
 		return sections;
 	}
 	/**
 	 * @param sections the sections to set
 	 */
-	public void setSections(List<BotProtocolSection> sections) {
+	public void setSections(List<NetBotProtocolSection> sections) {
 		this.sections = sections;
 	}
 

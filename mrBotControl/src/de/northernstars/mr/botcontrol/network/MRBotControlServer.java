@@ -13,7 +13,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.northernstars.mr.botcontrol.core.interfaces.CommandPackageRecievedListener;
-import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
+import de.northernstars.mr.botcontrol.network.protocol.NetBotProtocol;
+import de.northernstars.mr.botcontrol.network.protocol.NetBotProtocolSection;
 
 
 public class MRBotControlServer implements Runnable {
@@ -70,18 +71,18 @@ public class MRBotControlServer implements Runnable {
 	 * Notifies all listener about a new command set.
 	 * @param commandPackage	{@link CommandPackage}
 	 */
-	private void notifyCommandPackaeRecievedListener(CommandPackage commandPackage){
+	private void notifyCommandPackageRecievedListener(CommandPackage commandPackage){
 		// generate array if sections
-		BotProtocolSection[] sections = new BotProtocolSection[ commandPackage.getSections().size() ];
+		NetBotProtocolSection[] sections = new NetBotProtocolSection[ commandPackage.getSections().size() ];
 		int i = 0;
-		for( BotProtocolSection section : commandPackage.getSections() ){
+		for( NetBotProtocolSection section : commandPackage.getSections() ){
 			sections[i] = section;
 			i++;
 		}
 		
 		// notify listener
 		for( CommandPackageRecievedListener listener : commandRecievedListener ){
-			listener.commandPackageRecieved(sections);
+			listener.commandPackageRecieved( NetBotProtocol.toBotProtocolSections(sections) );
 		}
 	}
 	
@@ -121,7 +122,7 @@ public class MRBotControlServer implements Runnable {
 					CommandPackage commandPackage = CommandPackage.fromXML(data);
 					if( commandPackage != null && commandPackage.getCommandProtocolRevision() == 2  ){
 						log.debug("Recieved data from {}:{} - protocol revision {}.", address, port, commandPackage.getCommandProtocolRevision());
-						notifyCommandPackaeRecievedListener(commandPackage);
+						notifyCommandPackageRecievedListener(commandPackage);
 					}
 					
 				}

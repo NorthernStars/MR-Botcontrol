@@ -10,12 +10,12 @@ import java.net.UnknownHostException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.northernstars.mr.botcontrol.core.protocol.BotProtocol;
-import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
-import de.northernstars.mr.botcontrol.core.protocol.LEDAnimations;
 import de.northernstars.mr.botcontrol.network.CommandPackage;
 import de.northernstars.mr.botcontrol.network.MRBotControlServer;
 import de.northernstars.mr.botcontrol.network.ProtocolRequestPackage;
+import de.northernstars.mr.botcontrol.network.protocol.NetBotProtocolCommand;
+import de.northernstars.mr.botcontrol.network.protocol.NetBotProtocolCommands;
+import de.northernstars.mr.botcontrol.network.protocol.NetBotProtocolSection;
 
 public class NetworkTest {
 	
@@ -51,9 +51,10 @@ public class NetworkTest {
 			
 			// sending data
 			CommandPackage cmd = new CommandPackage( req.getProtocolRevision() );
-			BotProtocolSection section = new BotProtocolSection(0);
-			section.add( BotProtocol.ledAnimation(LEDAnimations.FADE) );
+			NetBotProtocolSection section = new NetBotProtocolSection(0);
+			section.add( new NetBotProtocolCommand(NetBotProtocolCommands.MOTOR_LEFT, 100) );
 			cmd.addSection(section);
+			
 			send( cmd.toXml(), address, MRBotControlServer.socketPort );
 			
 		} catch (UnknownHostException err){

@@ -191,10 +191,10 @@ public class BotProtocol {
 	
 	/**
 	 * Adjusting color value to valid data byte
-	 * @param color		{@link Integer} color value
+	 * @param color		{@link Integer} color value 0-255
 	 * @return			Valid data {@link Byte}
 	 */
-	private static byte adjustColor(int color){
+	public static byte adjustColor(int color){
 		if( color < 0 ){
 			color = color * -1;
 		}
@@ -207,10 +207,10 @@ public class BotProtocol {
 	
 	/**
 	 * Adjusting speed value to valid data byte.
-	 * @param speed		{@link Integer} speed value
+	 * @param speed		{@link Integer} speed value 0-100
 	 * @return			Valid data {@link Byte}
 	 */
-	private static byte adjustSpeed(int speed){
+	public static byte adjustSpeed(int speed){
 		// Limit min and max value
 		if( speed < 0 ){
 			speed = speed * -1;

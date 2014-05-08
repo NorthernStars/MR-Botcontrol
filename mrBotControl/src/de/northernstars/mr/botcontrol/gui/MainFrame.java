@@ -145,6 +145,7 @@ public class MainFrame extends JFrame {
 	public JButton btnLED4;
 	public JButton btnRefresh;
 	public JLabel lblTestBotsStatus;
+	public JButton btnDebugUpdateDeviceInfo;
 
 	/**
 	 * Launch the gui.
@@ -1041,9 +1042,9 @@ public class MainFrame extends JFrame {
 		panel_1.add(panel_4, gbc_panel_4);
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
 		gbl_panel_4.columnWidths = new int[]{0, 0, 0};
-		gbl_panel_4.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gbl_panel_4.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_panel_4.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_4.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_4.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_4.setLayout(gbl_panel_4);
 		
 		JLabel lblLabelPusblisher = new JLabel("Pusblisher:");
@@ -1101,17 +1102,27 @@ public class MainFrame extends JFrame {
 		lblLabelBotID.setHorizontalAlignment(SwingConstants.RIGHT);
 		GridBagConstraints gbc_lblLabelBotID = new GridBagConstraints();
 		gbc_lblLabelBotID.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblLabelBotID.insets = new Insets(0, 0, 0, 5);
+		gbc_lblLabelBotID.insets = new Insets(0, 0, 5, 5);
 		gbc_lblLabelBotID.gridx = 0;
 		gbc_lblLabelBotID.gridy = 3;
 		panel_4.add(lblLabelBotID, gbc_lblLabelBotID);
 		
 		lblDebugBotID = new JLabel("unknown");
 		GridBagConstraints gbc_lblDebugBotID = new GridBagConstraints();
+		gbc_lblDebugBotID.insets = new Insets(0, 0, 5, 0);
 		gbc_lblDebugBotID.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblDebugBotID.gridx = 1;
 		gbc_lblDebugBotID.gridy = 3;
 		panel_4.add(lblDebugBotID, gbc_lblDebugBotID);
+		
+		btnDebugUpdateDeviceInfo = new JButton("Update device info");
+		GridBagConstraints gbc_btnDebugUpdateDeviceInfo = new GridBagConstraints();
+		gbc_btnDebugUpdateDeviceInfo.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnDebugUpdateDeviceInfo.gridwidth = 2;
+		gbc_btnDebugUpdateDeviceInfo.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDebugUpdateDeviceInfo.gridx = 0;
+		gbc_btnDebugUpdateDeviceInfo.gridy = 4;
+		panel_4.add(btnDebugUpdateDeviceInfo, gbc_btnDebugUpdateDeviceInfo);
 		
 		// call listener
 		if( listener != null ){
