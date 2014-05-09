@@ -32,9 +32,10 @@ public class MRBotControlServer implements Runnable {
 	 */
 	public MRBotControlServer() {
 		try {
-			socket = new DatagramSocket(socketPort, InetAddress.getLocalHost());
+//			socket = new DatagramSocket(socketPort, InetAddress.getLocalHost());
+			socket = new DatagramSocket(socketPort, InetAddress.getByName("192.168.0.100") );
 			active = true;
-			log.debug("Started datagram socket at {}:{}", InetAddress.getLocalHost(), socketPort);
+			log.debug("Started datagram socket at {}:{}", socket.getLocalAddress(), socketPort);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {

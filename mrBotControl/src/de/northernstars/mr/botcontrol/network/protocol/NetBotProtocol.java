@@ -42,20 +42,20 @@ public class NetBotProtocol {
 		case MOTOR_LEFT:
 			if( aCommand.getValue() < 0 ){
 				return new BotProtocolCommand( BotProtocolCommands.MOTOR_LEFT_BWD,
-						BotProtocol.adjustSpeed(aCommand.getValue()) );
+						BotProtocol.adjustSpeed(aCommand.getValue()/10) );
 			}
 			
 			return new BotProtocolCommand( BotProtocolCommands.MOTOR_LEFT_FWD, 
-						BotProtocol.adjustSpeed(aCommand.getValue()));
+						BotProtocol.adjustSpeed(aCommand.getValue()/10));
 			
 		case MOTOR_RIGHT:
 			if( aCommand.getValue() < 0 ){
 				return new BotProtocolCommand( BotProtocolCommands.MOTOR_RIGHT_BWD,
-						BotProtocol.adjustSpeed(aCommand.getValue()) );
+						BotProtocol.adjustSpeed(aCommand.getValue()/10) );
 			}
 			
 			return new BotProtocolCommand( BotProtocolCommands.MOTOR_RIGHT_FWD, 
-						BotProtocol.adjustSpeed(aCommand.getValue()));
+						BotProtocol.adjustSpeed(aCommand.getValue()/10));
 			
 		default:
 			break;
