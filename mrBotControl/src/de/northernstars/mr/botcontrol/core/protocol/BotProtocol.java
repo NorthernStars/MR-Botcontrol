@@ -227,6 +227,20 @@ public class BotProtocol {
 	}
 	
 	/**
+	 * Generates {@link Byte} data to send from {@link List} of {@link BotProtocolSection}.
+	 * @param sections	{@link List} of {@link BotProtocolSection}
+	 * @return			{@link Byte} array with data to send
+	 */
+	public static byte[] generateDataFromSections(List<BotProtocolSection> sections){
+		BotProtocolSection[] bSections = new BotProtocolSection[sections.size()];
+		for( int i=0; i<sections.size();i++ ){
+			bSections[i] = sections.get(i);
+		}
+		
+		return generateDataFromSections(bSections);
+	}
+	
+	/**
 	 * Generates {@link Byte} data to send from array of {@link BotProtocolSection}.
 	 * @param sections	{@link List} of {@link BotProtocolSection}
 	 * @return			{@link Byte} array with data to send

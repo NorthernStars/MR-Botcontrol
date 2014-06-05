@@ -15,13 +15,17 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+
 import javax.swing.JTabbedPane;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 import javax.swing.JButton;
@@ -29,17 +33,23 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import de.hanneseilers.jftdiserial.core.DataBits;
 import de.hanneseilers.jftdiserial.core.StopBits;
 import de.hanneseilers.jftdiserial.core.Parity;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
 import de.northernstars.mr.botcontrol.core.protocol.LEDAnimations;
 
 /**
@@ -48,7 +58,9 @@ import de.northernstars.mr.botcontrol.core.protocol.LEDAnimations;
  *
  */
 @SuppressWarnings("serial")
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements WindowListener {
+	
+	private GuiFrameListener mListener; 
 
 	private JPanel contentPane;
 	public JMenuBar menuBar;
@@ -167,9 +179,13 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame(GuiFrameListener listener) {
+		mListener = listener;
+		
 		setTitle("MRBotControl");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 769, 600);
+		
+		addWindowListener(this);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -1125,8 +1141,29 @@ public class MainFrame extends JFrame {
 		panel_4.add(btnDebugUpdateDeviceInfo, gbc_btnDebugUpdateDeviceInfo);
 		
 		// call listener
-		if( listener != null ){
-			listener.frameLoaded(this);
+		if( mListener != null ){
+			mListener.frameLoaded(this);
 		}
 	}
+	
+	@Override
+	public void windowOpened(WindowEvent arg0) {}			
+	@Override
+	public void windowIconified(WindowEvent arg0) {}			
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {}			
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {}
+	
+	@Override
+	public void windowClosing(WindowEvent arg0) {
+		if( mListener != null ){
+			mListener.frameCloseing(this);
+		}
+	}
+	
+	@Override
+	public void windowClosed(WindowEvent arg0) {}			
+	@Override
+	public void windowActivated(WindowEvent arg0) {}
 }

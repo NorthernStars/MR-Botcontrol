@@ -15,4 +15,10 @@ public interface GuiFrameListener {
 	 */
 	public void frameLoaded(JFrame frame);
 	
+	/**
+	 * Called if {@link JFrame} closing
+	 * @param frame
+	 */
+	public void frameCloseing(JFrame frame);
+	
 }

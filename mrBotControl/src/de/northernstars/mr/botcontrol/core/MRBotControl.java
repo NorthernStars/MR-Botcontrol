@@ -26,18 +26,25 @@ public class MRBotControl implements GuiFrameListener, CommandPackageRecievedLis
 	private static final Logger log = LogManager.getLogger();
 	private MainFrame gui = null;
 	private FTDISerial ftdi = new FTDISerial();
+	private DataWriter writer;
 	private MRBotControlServer server;
+	
 
 	/**
 	 * Constructor
 	 */
 	public MRBotControl() {
 		MainFrame.showMainFrame(this);
+		
+		// create server and data writer
 		server = new MRBotControlServer();
 		server.addCommandPackageRecievedListener(this);
 		
-		// start server
+		writer = new DataWriter(ftdi);
+		
+		// start server and data writer
 		new Thread(server).start();
+		new Thread(writer).start();
 	}
 	
 	/**
@@ -65,7 +72,15 @@ public class MRBotControl implements GuiFrameListener, CommandPackageRecievedLis
 		} catch(ClassCastException e){
 			log.error("Could not cast " + frame + " to MainFrame.");
 		}
-	}	
+	}
+	
+	@Override
+	public void frameCloseing(JFrame frame) {
+		if( writer != null ){
+			writer.setActive(false);
+			server.setActive(false);
+		}
+	}
 
 	/**
 	 * @param args
@@ -84,8 +99,14 @@ public class MRBotControl implements GuiFrameListener, CommandPackageRecievedLis
 
 	@Override
 	public void commandPackageRecieved(BotProtocolSection[] sections) {
-		log.debug("Sending {}", (Object[]) sections);
-		new Thread( new DataWriter(getFtdi(), sections) ).start();
-	}	
+		if( writer != null && writer.isActive() ){
+			log.debug("Sending {}", (Object[]) sections);
+			writer.putDataInQue(sections);
+		}
+	}
+
+	public DataWriter getWriter() {
+		return writer;
+	}
 
 }

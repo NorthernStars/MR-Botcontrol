@@ -13,7 +13,6 @@ import javax.swing.event.ChangeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.northernstars.mr.botcontrol.core.DataWriter;
 import de.northernstars.mr.botcontrol.core.MRBotControl;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocol;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
@@ -329,8 +328,9 @@ public class TabSectionBotControl extends TabSection {
 	 * @param aSections	Array of {@link BotProtocolSection}
 	 */
 	private synchronized void send(BotProtocolSection[] aSections){
-		log.debug("Sending {}", (Object[]) aSections);
-		new Thread( new DataWriter(control.getFtdi(), aSections) ).start();
+		if( control.getWriter() != null ){
+			control.getWriter().putDataInQue(aSections);
+		}
 	}
 	
 	/**

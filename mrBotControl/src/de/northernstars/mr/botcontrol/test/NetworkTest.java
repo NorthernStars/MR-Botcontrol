@@ -52,7 +52,8 @@ public class NetworkTest {
 			// sending data
 			CommandPackage cmd = new CommandPackage( req.getProtocolRevision() );
 			NetBotProtocolSection section = new NetBotProtocolSection(0);
-			section.add( new NetBotProtocolCommand(NetBotProtocolCommands.LED_STATUS, 1) );
+			section.add( new NetBotProtocolCommand(NetBotProtocolCommands.MOTOR_LEFT, 100) );
+			section.add( new NetBotProtocolCommand(NetBotProtocolCommands.MOTOR_RIGHT, 100) );
 			cmd.addSection(section);
 			
 			send( cmd.toXml(), address, MRBotControlServer.socketPort );

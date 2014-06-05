@@ -3,10 +3,12 @@ package de.northernstars.mr.botcontrol.network;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -32,13 +34,13 @@ public class MRBotControlServer implements Runnable {
 	 */
 	public MRBotControlServer() {
 		try {
-//			socket = new DatagramSocket(socketPort, InetAddress.getLocalHost());
-			socket = new DatagramSocket(socketPort, InetAddress.getByName("192.168.0.100") );
-			active = true;
-			log.debug("Started datagram socket at {}:{}", socket.getLocalAddress(), socketPort);
+			InetAddress address = getFirstInet4Adress();
+			if( address != null ){
+				socket = new DatagramSocket(socketPort, address );
+				active = true;
+				log.debug("Started datagram socket at {}:{}", socket.getLocalAddress(), socketPort);
+			}
 		} catch (SocketException e) {
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
@@ -85,6 +87,35 @@ public class MRBotControlServer implements Runnable {
 		for( CommandPackageRecievedListener listener : commandRecievedListener ){
 			listener.commandPackageRecieved( NetBotProtocol.toBotProtocolSections(sections) );
 		}
+	}
+	
+	/**
+	 * @return 	First IPv4 {@link InetAddress} or {@code null} if no adress found<br>
+	 * 			Skips lopback and virtual network interfaces.
+	 */
+	private static InetAddress getFirstInet4Adress(){
+		try {
+			Enumeration<NetworkInterface> vInterfaces = NetworkInterface.getNetworkInterfaces();
+			while( vInterfaces.hasMoreElements() ){
+				NetworkInterface vInterface = vInterfaces.nextElement();
+				Enumeration<InetAddress> vAdresses = vInterface.getInetAddresses();
+				
+				if( vInterface.isUp() && !vInterface.isLoopback() && !vInterface.isVirtual() ){
+				
+					while( vAdresses.hasMoreElements() ){
+						InetAddress vAdress = vAdresses.nextElement();
+						if( vAdress instanceof Inet4Address ){
+							return vAdress;
+						}
+					}
+				}
+				
+			}
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	@Override
