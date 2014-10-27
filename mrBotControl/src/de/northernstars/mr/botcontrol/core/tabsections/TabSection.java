@@ -14,8 +14,8 @@ public abstract class TabSection implements ChangeListener {
 	 * Consctructor
 	 * @param mrBotControl	{@link MRBotControl} instance
 	 */
-	public TabSection(MRBotControl mrBotControl) {
-		control = mrBotControl;
+	public TabSection() {
+		control = MRBotControl.getInstance();
 		
 		gui = control.getGui();		
 		gui.tabbedPane.addChangeListener(this);	

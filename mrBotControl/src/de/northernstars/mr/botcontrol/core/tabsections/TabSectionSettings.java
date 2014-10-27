@@ -16,7 +16,6 @@ import de.hanneseilers.jftdiserial.core.DataBits;
 import de.hanneseilers.jftdiserial.core.Parity;
 import de.hanneseilers.jftdiserial.core.SerialDevice;
 import de.hanneseilers.jftdiserial.core.StopBits;
-import de.northernstars.mr.botcontrol.core.MRBotControl;
 
 /**
  * Section Settings
@@ -30,8 +29,8 @@ public class TabSectionSettings extends TabSection {
 	private DefaultComboBoxModel<String> libsModel = new DefaultComboBoxModel<String>();
 	private DefaultComboBoxModel<String> devsModel = new DefaultComboBoxModel<String>();
 	
-	public TabSectionSettings(MRBotControl mrBotControl) {
-		super(mrBotControl);
+	public TabSectionSettings() {
+		super();
 			
 		gui.cmbSerialLibraries.setModel(libsModel);
 		gui.cmbDevices.setModel(devsModel);

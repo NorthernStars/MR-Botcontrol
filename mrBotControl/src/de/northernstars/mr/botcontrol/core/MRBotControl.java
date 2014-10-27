@@ -13,6 +13,7 @@ import de.northernstars.mr.botcontrol.core.tabsections.TabSection;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionBotControl;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionDebugInterface;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionSettings;
+import de.northernstars.mr.botcontrol.core.tabsections.TabSectionTest;
 import de.northernstars.mr.botcontrol.gui.MainFrame;
 import de.northernstars.mr.botcontrol.network.MRBotControlServer;
 
@@ -24,6 +25,8 @@ import de.northernstars.mr.botcontrol.network.MRBotControlServer;
 public class MRBotControl implements GuiFrameListener, CommandPackageRecievedListener {
 	
 	private static final Logger log = LogManager.getLogger();
+	private static MRBotControl sInstance;
+	
 	private MainFrame gui = null;
 	private FTDISerial ftdi = new FTDISerial();
 	private DataWriter writer;
@@ -45,15 +48,29 @@ public class MRBotControl implements GuiFrameListener, CommandPackageRecievedLis
 		// start server and data writer
 		new Thread(server).start();
 		new Thread(writer).start();
+		
+		sInstance = this;
+	}
+	
+	/**
+	 * @return	{@link MRBotControl} instance
+	 */
+	public static MRBotControl getInstance(){
+		if( sInstance == null ){
+			sInstance = new MRBotControl();
+		}
+		
+		return sInstance;
 	}
 	
 	/**
 	 * Loads {@link TabSection} instances
 	 */
 	private void loadTabSections(){
-		new TabSectionSettings(this);
-		new TabSectionBotControl(this);
-		new TabSectionDebugInterface(this);
+		new TabSectionSettings();
+		new TabSectionBotControl();
+		new TabSectionDebugInterface();
+		new TabSectionTest();
 	}
 	
 	/**

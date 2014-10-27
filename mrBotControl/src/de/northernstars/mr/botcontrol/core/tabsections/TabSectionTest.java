@@ -10,49 +10,66 @@ import javax.swing.event.ChangeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.northernstars.mr.botcontrol.core.MRBotControl;
-import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
+import de.northernstars.mr.botcontrol.core.test.HardwareTestRunnable;
+import de.northernstars.mr.botcontrol.core.test.TestTypes;
 
 public class TabSectionTest extends TabSection {
 	
 	private static final Logger log = LogManager.getLogger();
+	private HardwareTestRunnable mTestRunnable;
 
-	public TabSectionTest(MRBotControl mrBotControl) {
-		super(mrBotControl);
+	public TabSectionTest() {
+		super();
 		
 		// connect gui
 		gui.btnQuickTest.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				BotProtocolSection section = new BotProtocolSection(getBotID());
-				send( new BotProtocolSection[]{section} );
+				if( mTestRunnable != null){
+					mTestRunnable.stopTest();
+				}
+				
+				mTestRunnable = new HardwareTestRunnable(TestTypes.QUICK);
+				(new Thread(mTestRunnable)).start();
 			}
 		});
 		
 		gui.btnNormalTest.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				if( mTestRunnable != null){
+					mTestRunnable.stopTest();
+				}
+				
+				mTestRunnable = new HardwareTestRunnable(TestTypes.INTERVAL);
+				(new Thread(mTestRunnable)).start();
 			}
 		});
 		
 		gui.btnCompetitionTestTest.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				if( mTestRunnable != null){
+					mTestRunnable.stopTest();
+				}
+				
+				mTestRunnable = new HardwareTestRunnable(TestTypes.COMPETITION);
+				(new Thread(mTestRunnable)).start();
 			}
 		});
+		
+		gui.btnStopTest.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if( mTestRunnable != null){
+					mTestRunnable.stopTest();
+				}
+			}
+		});
+		
 	}
 	
-	/**
-	 * Sends array of {@link BotProtocolSection} to remote device
-	 * @param aSections	Array of {@link BotProtocolSection}
-	 */
-	private synchronized void send(BotProtocolSection[] aSections){
-		if( control.getWriter() != null ){
-			control.getWriter().putDataInQue(aSections);
-		}
-	}
+	
 	
 	/**
 	 * Sets enabled status of all children of a parent {@link Component}

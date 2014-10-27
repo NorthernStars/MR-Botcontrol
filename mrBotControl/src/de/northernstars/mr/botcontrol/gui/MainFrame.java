@@ -170,7 +170,8 @@ public class MainFrame extends JFrame implements WindowListener {
 	private JTextPane txtpnQuickSeconds;
 	private JTextPane txtpnTestWithIncreasing;
 	private JTextPane txtpnSimulationTestOf;
-	private JLabel lblTestStatus;
+	public JLabel lblTestStatus;
+	public JButton btnStopTest;
 
 	/**
 	 * Launch the gui.
@@ -1193,7 +1194,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		panelTest.add(txtpnQuickSeconds, "2, 4, fill, fill");
 		
 		txtpnTestWithIncreasing = new JTextPane();
-		txtpnTestWithIncreasing.setText("Test with increasing intervalls with heavy load. Increases time from 10 seconds to 60 minutes. Overall testing time ca. 170 minutes.");
+		txtpnTestWithIncreasing.setText("Test with increasing intervalls with heavy load. Increases time from 10 seconds to 60 minutes. Overall testing time ca. 3h 30m.");
 		txtpnTestWithIncreasing.setEditable(false);
 		txtpnTestWithIncreasing.setBackground(UIManager.getColor("Label.background"));
 		panelTest.add(txtpnTestWithIncreasing, "4, 4, fill, fill");
@@ -1214,7 +1215,10 @@ public class MainFrame extends JFrame implements WindowListener {
 		panelTest.add(btnCompetitionTestTest, "6, 6");
 		
 		lblTestStatus = new JLabel("");
-		panelTest.add(lblTestStatus, "2, 8, 5, 1");
+		panelTest.add(lblTestStatus, "2, 8, 3, 1");
+		
+		btnStopTest = new JButton("Stop Test");
+		panelTest.add(btnStopTest, "6, 8");
 		
 		// call listener
 		if( mListener != null ){

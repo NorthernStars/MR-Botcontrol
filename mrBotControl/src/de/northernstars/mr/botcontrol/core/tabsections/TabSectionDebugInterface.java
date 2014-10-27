@@ -21,7 +21,6 @@ import de.hanneseilers.jftdiserial.core.SerialDevice;
 import de.hanneseilers.jftdiserial.core.StopBits;
 import de.hanneseilers.jftdiserial.core.interfaces.SerialDataRecievedListener;
 import de.northernstars.mr.botcontrol.core.DebugCommands;
-import de.northernstars.mr.botcontrol.core.MRBotControl;
 
 public class TabSectionDebugInterface extends TabSection implements SerialDataRecievedListener {
 	
@@ -35,8 +34,8 @@ public class TabSectionDebugInterface extends TabSection implements SerialDataRe
 	private List<DebugCommands> commandQue = new ArrayList<DebugCommands>();
 	private List<Byte> recievedData = new ArrayList<Byte>();
 
-	public TabSectionDebugInterface(MRBotControl mrBotControl) {
-		super(mrBotControl);
+	public TabSectionDebugInterface() {
+		super();
 		
 		ftdi.addSerialDataRecievedListener(this);
 		
