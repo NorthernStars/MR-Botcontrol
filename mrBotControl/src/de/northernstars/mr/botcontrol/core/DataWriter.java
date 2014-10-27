@@ -91,12 +91,14 @@ public class DataWriter implements Runnable{
 						vSection = new BotProtocolSection(vID);
 						vSection.add( new BotProtocolCommand(BotProtocolCommands.MOTOR_STOP, 2) );
 						vSectionsList.add( vSection );		
-						
-						// check if to remove message from history
-						if(mLastMessage.get(vID)+3*timeout < System.currentTimeMillis()){
-							mLastMessage.remove(vID);
-						}
 					}				
+				}
+				
+				// check if to remove messageS from history
+				for( int vID : mLastMessage.keySet() ){					
+					if(mLastMessage.get(vID)+3*timeout < System.currentTimeMillis()){
+						mLastMessage.remove(vID);
+					}
 				}
 			}
 			
