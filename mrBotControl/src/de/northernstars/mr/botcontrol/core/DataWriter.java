@@ -1,5 +1,6 @@
 package de.northernstars.mr.botcontrol.core;
 
+import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,7 +97,7 @@ public class DataWriter implements Runnable{
 				}
 				
 				// check if to remove messageS from history
-				Set<Integer> vIdSet = mLastMessage.keySet();
+				Integer vIdSet[] = mLastMessage.keySet().toArray(new Integer[0]);
 				for( int vID : vIdSet ){					
 					if(mLastMessage.get(vID)+3*timeout < System.currentTimeMillis()){
 						mLastMessage.remove(vID);
