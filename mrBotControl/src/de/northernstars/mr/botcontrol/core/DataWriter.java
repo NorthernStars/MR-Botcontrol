@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -95,7 +96,8 @@ public class DataWriter implements Runnable{
 				}
 				
 				// check if to remove messageS from history
-				for( int vID : mLastMessage.keySet() ){					
+				Set<Integer> vIdSet = mLastMessage.keySet();
+				for( int vID : vIdSet ){					
 					if(mLastMessage.get(vID)+3*timeout < System.currentTimeMillis()){
 						mLastMessage.remove(vID);
 					}
