@@ -68,7 +68,7 @@ public class DataWriter implements Runnable{
 			
 			// adding new messages to list
 			synchronized (mSectionQue) {
-				while( !mSectionQue.isEmpty() ){
+				while( !mSectionQue.isEmpty() ){					
 					vSection = mSectionQue.poll();
 					if( vSection != null ){
 						vSectionsList.add(vSection);
