@@ -47,8 +47,10 @@ public class DataWriter implements Runnable{
 	 */
 	public boolean putDataInQue(BotProtocolSection[] sections){
 		for( BotProtocolSection s : sections ){
-			if( !mSectionQue.offer(s) ){
-				return false;
+			synchronized (mSectionQue) {
+				if( !mSectionQue.offer(s) ){
+					return false;
+				}			
 			}
 		}
 		return true;
@@ -65,12 +67,14 @@ public class DataWriter implements Runnable{
 		while(active){
 			
 			// adding new messages to list
-			while( !mSectionQue.isEmpty() ){
-				vSection = mSectionQue.poll();
-				if( vSection != null ){
-					vSectionsList.add(vSection);
-					mLastMessage.put( vSection.getBotID(), System.currentTimeMillis() );
-					log.debug("Added message for {} {}", vSection.getBotID(), vSection);
+			synchronized (mSectionQue) {
+				while( !mSectionQue.isEmpty() ){
+					vSection = mSectionQue.poll();
+					if( vSection != null ){
+						vSectionsList.add(vSection);
+						mLastMessage.put( vSection.getBotID(), System.currentTimeMillis() );
+						log.debug("Added message for {} {}", vSection.getBotID(), vSection);
+					}
 				}
 			}
 			

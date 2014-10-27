@@ -51,6 +51,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import de.northernstars.mr.botcontrol.core.protocol.LEDAnimations;
+import javax.swing.JTextPane;
+import javax.swing.UIManager;
 
 /**
  * Main frame GUI.
@@ -158,6 +160,17 @@ public class MainFrame extends JFrame implements WindowListener {
 	public JButton btnRefresh;
 	public JLabel lblTestBotsStatus;
 	public JButton btnDebugUpdateDeviceInfo;
+	public JPanel panelTest;
+	private JLabel lblQuickTestTitle;
+	private JLabel lblNormalTestTitle;
+	private JLabel lblCompetitionTestTitle;
+	public JButton btnQuickTest;
+	public JButton btnNormalTest;
+	public JButton btnCompetitionTestTest;
+	private JTextPane txtpnQuickSeconds;
+	private JTextPane txtpnTestWithIncreasing;
+	private JTextPane txtpnSimulationTestOf;
+	private JLabel lblTestStatus;
 
 	/**
 	 * Launch the gui.
@@ -1139,6 +1152,69 @@ public class MainFrame extends JFrame implements WindowListener {
 		gbc_btnDebugUpdateDeviceInfo.gridx = 0;
 		gbc_btnDebugUpdateDeviceInfo.gridy = 4;
 		panel_4.add(btnDebugUpdateDeviceInfo, gbc_btnDebugUpdateDeviceInfo);
+		
+		panelTest = new JPanel();
+		tabbedPane.addTab("Hardware Test", null, panelTest, null);
+		panelTest.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,}));
+		
+		lblQuickTestTitle = new JLabel("Quick Test");
+		lblQuickTestTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		panelTest.add(lblQuickTestTitle, "2, 2");
+		
+		lblNormalTestTitle = new JLabel("Interval Test");
+		lblNormalTestTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		panelTest.add(lblNormalTestTitle, "4, 2");
+		
+		lblCompetitionTestTitle = new JLabel("Competition Test");
+		lblCompetitionTestTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		panelTest.add(lblCompetitionTestTitle, "6, 2");
+		
+		txtpnQuickSeconds = new JTextPane();
+		txtpnQuickSeconds.setText("Quick 30 seconds test with heavy load.");
+		txtpnQuickSeconds.setEditable(false);
+		txtpnQuickSeconds.setBackground(UIManager.getColor("Label.background"));
+		panelTest.add(txtpnQuickSeconds, "2, 4, fill, fill");
+		
+		txtpnTestWithIncreasing = new JTextPane();
+		txtpnTestWithIncreasing.setText("Test with increasing intervalls with heavy load. Increases time from 10 seconds to 60 minutes. Overall testing time ca. 170 minutes.");
+		txtpnTestWithIncreasing.setEditable(false);
+		txtpnTestWithIncreasing.setBackground(UIManager.getColor("Label.background"));
+		panelTest.add(txtpnTestWithIncreasing, "4, 4, fill, fill");
+		
+		txtpnSimulationTestOf = new JTextPane();
+		txtpnSimulationTestOf.setText("Simulation test of whole competition day. Overall testing time 8 hours.");
+		txtpnSimulationTestOf.setEditable(false);
+		txtpnSimulationTestOf.setBackground(UIManager.getColor("Label.background"));
+		panelTest.add(txtpnSimulationTestOf, "6, 4, fill, fill");
+		
+		btnQuickTest = new JButton("Start");
+		panelTest.add(btnQuickTest, "2, 6");
+		
+		btnNormalTest = new JButton("Start");
+		panelTest.add(btnNormalTest, "4, 6");
+		
+		btnCompetitionTestTest = new JButton("Start");
+		panelTest.add(btnCompetitionTestTest, "6, 6");
+		
+		lblTestStatus = new JLabel("");
+		panelTest.add(lblTestStatus, "2, 8, 5, 1");
 		
 		// call listener
 		if( mListener != null ){
