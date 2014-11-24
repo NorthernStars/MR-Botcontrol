@@ -7,6 +7,7 @@ import de.northernstars.mr.botcontrol.core.MRBotControl;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolCommand;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolCommands;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
+import de.northernstars.mr.botcontrol.core.protocol.LEDAnimations;
 
 public class HardwareTestRunnable implements Runnable {
 
@@ -188,8 +189,12 @@ public class HardwareTestRunnable implements Runnable {
 	 * @param aSections	Array of {@link BotProtocolSection}
 	 */
 	private synchronized void send(){		
-		BotProtocolSection vSection = new BotProtocolSection(0);
-		vSection.add( new BotProtocolCommand(BotProtocolCommands.LED_ANIMATION, 0xff) );
+		int vID = Integer.parseInt(MRBotControl.getInstance().getGui().txtBotID.getText());
+		BotProtocolSection vSection = new BotProtocolSection(vID); 
+		vSection.add( new BotProtocolCommand(BotProtocolCommands.MOTOR_LEFT_FWD, 0xff) );
+		vSection.add( new BotProtocolCommand(BotProtocolCommands.MOTOR_RIGHT_BWD, 0xff) );
+		vSection.add( new BotProtocolCommand(BotProtocolCommands.LEDS_ON, 0xff) );
+		vSection.add( new BotProtocolCommand(BotProtocolCommands.LED_ANIMATION, LEDAnimations.STROBE.CMD) );
 		
 		if( control.getWriter() != null ){
 			control.getWriter().putDataInQue( new BotProtocolSection[]{vSection} );
