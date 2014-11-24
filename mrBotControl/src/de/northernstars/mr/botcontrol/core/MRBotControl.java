@@ -11,7 +11,6 @@ import de.northernstars.mr.botcontrol.core.interfaces.GuiFrameListener;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSection;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionBotControl;
-import de.northernstars.mr.botcontrol.core.tabsections.TabSectionDebugInterface;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionSettings;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionTest;
 import de.northernstars.mr.botcontrol.gui.MainFrame;
@@ -69,7 +68,6 @@ public class MRBotControl implements GuiFrameListener, CommandPackageRecievedLis
 	private void loadTabSections(){
 		new TabSectionSettings();
 		new TabSectionBotControl();
-		new TabSectionDebugInterface();
 		new TabSectionTest();
 	}
 	

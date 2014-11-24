@@ -75,7 +75,6 @@ public class MainFrame extends JFrame implements WindowListener {
 	public JTabbedPane tabbedPane;
 	public JPanel panelSettings;
 	public JPanel panelBotControl;
-	public JPanel panelDebugInterface;
 	public JLabel lblDevice;
 	public JButton btnConnect;
 	public JComboBox<String> cmbDevices;
@@ -92,24 +91,6 @@ public class MainFrame extends JFrame implements WindowListener {
 	public JComboBox<Parity> cmbParity;
 	public JLabel lblStatusInfo;
 	public JLabel lblStatus;
-	public JPanel panel_1;
-	public JLabel lblDebugPublisher;
-	public JLabel lblDebugProduct;
-	public JLabel lblDebugVersion;
-	public JPanel panel_2;
-	public JButton btnDebugLedStatus;
-	public JPanel panel_3;
-	public JPanel panel_4;
-	public JLabel lblDebugBaudrate;
-	public JComboBox<Baudrates> cmbDebugBaudrate;
-	public JLabel lblDebugDevice;
-	public JComboBox<String> cmbDebugDevices;
-	public JButton btnDebugConnect;
-	public JButton btnDebugLedRGB;
-	public JLabel lblDebugLibrary;
-	public JComboBox<String> cmbDebugSerialLibraries;
-	public JTextField txtDebugDevice;
-	public JLabel lblDebugBotID;
 	public JLabel lblProtocolVersion;
 	public JComboBox<ProtocolVersions> cmbProtocolVersion;
 	private JLabel lblBotId;
@@ -160,7 +141,6 @@ public class MainFrame extends JFrame implements WindowListener {
 	public JButton btnLED4;
 	public JButton btnRefresh;
 	public JLabel lblTestBotsStatus;
-	public JButton btnDebugUpdateDeviceInfo;
 	public JPanel panelTest;
 	private JLabel lblQuickTestTitle;
 	private JLabel lblNormalTestTitle;
@@ -943,225 +923,6 @@ public class MainFrame extends JFrame implements WindowListener {
 		gbc_btnLED4.gridx = 4;
 		gbc_btnLED4.gridy = 4;
 		panel_6.add(btnLED4, gbc_btnLED4);
-		
-		panelDebugInterface = new JPanel();
-		tabbedPane.addTab("Debugging", null, panelDebugInterface, null);
-		panelDebugInterface.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("min:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(150dlu;default)"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),}));
-		
-		panel_2 = new JPanel();
-		panelDebugInterface.add(panel_2, "2, 2, fill, fill");
-		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{0, 0, 0};
-		gbl_panel_2.rowHeights = new int[]{0, 0};
-		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel_2.setLayout(gbl_panel_2);
-		
-		btnDebugLedStatus = new JButton("LED Status on");
-		GridBagConstraints gbc_btnDebugLedStatus = new GridBagConstraints();
-		gbc_btnDebugLedStatus.insets = new Insets(0, 0, 0, 5);
-		gbc_btnDebugLedStatus.gridx = 0;
-		gbc_btnDebugLedStatus.gridy = 0;
-		panel_2.add(btnDebugLedStatus, gbc_btnDebugLedStatus);
-		
-		btnDebugLedRGB = new JButton("RGB LEDS on");
-		GridBagConstraints gbc_btnDebugLedRGB = new GridBagConstraints();
-		gbc_btnDebugLedRGB.gridx = 1;
-		gbc_btnDebugLedRGB.gridy = 0;
-		panel_2.add(btnDebugLedRGB, gbc_btnDebugLedRGB);
-		
-		panel_1 = new JPanel();
-		panelDebugInterface.add(panel_1, "4, 2, fill, fill");
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0, 0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
-		
-		panel_3 = new JPanel();
-		panel_3.setBorder(new TitledBorder(null, "Connection", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
-		gbc_panel_3.gridwidth = 2;
-		gbc_panel_3.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_3.fill = GridBagConstraints.BOTH;
-		gbc_panel_3.gridx = 0;
-		gbc_panel_3.gridy = 0;
-		panel_1.add(panel_3, gbc_panel_3);
-		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[]{0, 0, 0};
-		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panel_3.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_3.setLayout(gbl_panel_3);
-		
-		lblDebugLibrary = new JLabel("Library:");
-		lblDebugLibrary.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_lblDebugLibrary = new GridBagConstraints();
-		gbc_lblDebugLibrary.anchor = GridBagConstraints.EAST;
-		gbc_lblDebugLibrary.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDebugLibrary.gridx = 0;
-		gbc_lblDebugLibrary.gridy = 0;
-		panel_3.add(lblDebugLibrary, gbc_lblDebugLibrary);
-		
-		cmbDebugSerialLibraries = new JComboBox<String>();
-		GridBagConstraints gbc_cmbDebugSerialLibraries = new GridBagConstraints();
-		gbc_cmbDebugSerialLibraries.insets = new Insets(0, 0, 5, 0);
-		gbc_cmbDebugSerialLibraries.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbDebugSerialLibraries.gridx = 1;
-		gbc_cmbDebugSerialLibraries.gridy = 0;
-		panel_3.add(cmbDebugSerialLibraries, gbc_cmbDebugSerialLibraries);
-		
-		lblDebugDevice = new JLabel("Device:");
-		lblDebugDevice.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_lblDebugDevice = new GridBagConstraints();
-		gbc_lblDebugDevice.anchor = GridBagConstraints.EAST;
-		gbc_lblDebugDevice.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDebugDevice.gridx = 0;
-		gbc_lblDebugDevice.gridy = 1;
-		panel_3.add(lblDebugDevice, gbc_lblDebugDevice);
-		
-		cmbDebugDevices = new JComboBox<String>();
-		GridBagConstraints gbc_cmbDebugDevice = new GridBagConstraints();
-		gbc_cmbDebugDevice.insets = new Insets(0, 0, 5, 0);
-		gbc_cmbDebugDevice.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbDebugDevice.gridx = 1;
-		gbc_cmbDebugDevice.gridy = 1;
-		panel_3.add(cmbDebugDevices, gbc_cmbDebugDevice);
-		
-		txtDebugDevice = new JTextField();
-		GridBagConstraints gbc_txtDebugDevice = new GridBagConstraints();
-		gbc_txtDebugDevice.insets = new Insets(0, 0, 5, 0);
-		gbc_txtDebugDevice.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtDebugDevice.gridx = 1;
-		gbc_txtDebugDevice.gridy = 2;
-		panel_3.add(txtDebugDevice, gbc_txtDebugDevice);
-		txtDebugDevice.setColumns(10);
-		
-		lblDebugBaudrate = new JLabel("Baudrate:");
-		lblDebugBaudrate.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_lblDebugBaudrate = new GridBagConstraints();
-		gbc_lblDebugBaudrate.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDebugBaudrate.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblDebugBaudrate.gridx = 0;
-		gbc_lblDebugBaudrate.gridy = 3;
-		panel_3.add(lblDebugBaudrate, gbc_lblDebugBaudrate);
-		
-		cmbDebugBaudrate = new JComboBox<Baudrates>();
-		cmbDebugBaudrate.setModel(new DefaultComboBoxModel<Baudrates>(Baudrates.values()));
-		GridBagConstraints gbc_cmbDebugBaudrate = new GridBagConstraints();
-		gbc_cmbDebugBaudrate.insets = new Insets(0, 0, 5, 0);
-		gbc_cmbDebugBaudrate.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbDebugBaudrate.gridx = 1;
-		gbc_cmbDebugBaudrate.gridy = 3;
-		panel_3.add(cmbDebugBaudrate, gbc_cmbDebugBaudrate);
-		
-		btnDebugConnect = new JButton("Connect");
-		GridBagConstraints gbc_btnDebugConnect = new GridBagConstraints();
-		gbc_btnDebugConnect.gridwidth = 2;
-		gbc_btnDebugConnect.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnDebugConnect.gridx = 0;
-		gbc_btnDebugConnect.gridy = 4;
-		panel_3.add(btnDebugConnect, gbc_btnDebugConnect);
-		
-		panel_4 = new JPanel();
-		panel_4.setBorder(new TitledBorder(null, "Info", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
-		gbc_panel_4.gridwidth = 2;
-		gbc_panel_4.fill = GridBagConstraints.BOTH;
-		gbc_panel_4.gridx = 0;
-		gbc_panel_4.gridy = 1;
-		panel_1.add(panel_4, gbc_panel_4);
-		GridBagLayout gbl_panel_4 = new GridBagLayout();
-		gbl_panel_4.columnWidths = new int[]{0, 0, 0};
-		gbl_panel_4.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panel_4.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_4.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_4.setLayout(gbl_panel_4);
-		
-		JLabel lblLabelPusblisher = new JLabel("Pusblisher:");
-		GridBagConstraints gbc_lblLabelPusblisher = new GridBagConstraints();
-		gbc_lblLabelPusblisher.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblLabelPusblisher.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLabelPusblisher.gridx = 0;
-		gbc_lblLabelPusblisher.gridy = 0;
-		panel_4.add(lblLabelPusblisher, gbc_lblLabelPusblisher);
-		lblLabelPusblisher.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		lblDebugPublisher = new JLabel("unknown");
-		GridBagConstraints gbc_lblDebugPublisher = new GridBagConstraints();
-		gbc_lblDebugPublisher.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblDebugPublisher.insets = new Insets(0, 0, 5, 0);
-		gbc_lblDebugPublisher.gridx = 1;
-		gbc_lblDebugPublisher.gridy = 0;
-		panel_4.add(lblDebugPublisher, gbc_lblDebugPublisher);
-		
-		JLabel lblLabelProduct = new JLabel("Product:");
-		GridBagConstraints gbc_lblLabelProduct = new GridBagConstraints();
-		gbc_lblLabelProduct.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblLabelProduct.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLabelProduct.gridx = 0;
-		gbc_lblLabelProduct.gridy = 1;
-		panel_4.add(lblLabelProduct, gbc_lblLabelProduct);
-		lblLabelProduct.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		lblDebugProduct = new JLabel("unknown");
-		GridBagConstraints gbc_lblDebugProduct = new GridBagConstraints();
-		gbc_lblDebugProduct.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblDebugProduct.insets = new Insets(0, 0, 5, 0);
-		gbc_lblDebugProduct.gridx = 1;
-		gbc_lblDebugProduct.gridy = 1;
-		panel_4.add(lblDebugProduct, gbc_lblDebugProduct);
-		
-		JLabel lblLabelVersion = new JLabel("Version:");
-		GridBagConstraints gbc_lblLabelVersion = new GridBagConstraints();
-		gbc_lblLabelVersion.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblLabelVersion.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLabelVersion.gridx = 0;
-		gbc_lblLabelVersion.gridy = 2;
-		panel_4.add(lblLabelVersion, gbc_lblLabelVersion);
-		lblLabelVersion.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		lblDebugVersion = new JLabel("unknown");
-		GridBagConstraints gbc_lblDebugVersion = new GridBagConstraints();
-		gbc_lblDebugVersion.insets = new Insets(0, 0, 5, 0);
-		gbc_lblDebugVersion.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblDebugVersion.gridx = 1;
-		gbc_lblDebugVersion.gridy = 2;
-		panel_4.add(lblDebugVersion, gbc_lblDebugVersion);
-		
-		JLabel lblLabelBotID = new JLabel("ID:");
-		lblLabelBotID.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_lblLabelBotID = new GridBagConstraints();
-		gbc_lblLabelBotID.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblLabelBotID.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLabelBotID.gridx = 0;
-		gbc_lblLabelBotID.gridy = 3;
-		panel_4.add(lblLabelBotID, gbc_lblLabelBotID);
-		
-		lblDebugBotID = new JLabel("unknown");
-		GridBagConstraints gbc_lblDebugBotID = new GridBagConstraints();
-		gbc_lblDebugBotID.insets = new Insets(0, 0, 5, 0);
-		gbc_lblDebugBotID.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblDebugBotID.gridx = 1;
-		gbc_lblDebugBotID.gridy = 3;
-		panel_4.add(lblDebugBotID, gbc_lblDebugBotID);
-		
-		btnDebugUpdateDeviceInfo = new JButton("Update device info");
-		GridBagConstraints gbc_btnDebugUpdateDeviceInfo = new GridBagConstraints();
-		gbc_btnDebugUpdateDeviceInfo.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnDebugUpdateDeviceInfo.gridwidth = 2;
-		gbc_btnDebugUpdateDeviceInfo.insets = new Insets(0, 0, 0, 5);
-		gbc_btnDebugUpdateDeviceInfo.gridx = 0;
-		gbc_btnDebugUpdateDeviceInfo.gridy = 4;
-		panel_4.add(btnDebugUpdateDeviceInfo, gbc_btnDebugUpdateDeviceInfo);
 		
 		panelTest = new JPanel();
 		tabbedPane.addTab("Hardware Test", null, panelTest, null);
