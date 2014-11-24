@@ -84,7 +84,9 @@ public class TabSectionTest extends TabSection {
 			}
 		}
 		
-		parent.setEnabled(enable);
+		if( parent != null ){
+			parent.setEnabled(enable);
+		}
 	}
 
 	@Override

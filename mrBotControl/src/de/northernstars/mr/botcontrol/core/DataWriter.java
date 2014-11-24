@@ -1,11 +1,9 @@
 package de.northernstars.mr.botcontrol.core;
 
-import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -17,6 +15,7 @@ import de.northernstars.mr.botcontrol.core.protocol.BotProtocol;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolCommand;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolCommands;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
+import de.northernstars.mr.botcontrol.core.tabsections.TabSectionBotControl;
 
 /**
  * Class for writing data to ftdi device using async. thread.
@@ -86,13 +85,14 @@ public class DataWriter implements Runnable{
 			synchronized (mLastMessage) {
 				for( int vID : mLastMessage.keySet() ){				
 					// check if message is outdated
-					if( mLastMessage.get(vID)+timeout < System.currentTimeMillis()){
+					if( TabSectionBotControl.isAutostop()
+							&& mLastMessage.get(vID)+timeout < System.currentTimeMillis()){
 						
 						// message outdated > sending stop
 						log.debug("Outdated message for bot {}", vID);
 						vSection = new BotProtocolSection(vID);
 						vSection.add( new BotProtocolCommand(BotProtocolCommands.MOTOR_STOP, 2) );
-						vSectionsList.add( vSection );		
+						vSectionsList.add( vSection );
 					}				
 				}
 				

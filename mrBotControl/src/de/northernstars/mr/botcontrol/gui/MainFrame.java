@@ -53,6 +53,7 @@ import java.awt.event.WindowListener;
 import de.northernstars.mr.botcontrol.core.protocol.LEDAnimations;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
+import javax.swing.JCheckBox;
 
 /**
  * Main frame GUI.
@@ -172,6 +173,7 @@ public class MainFrame extends JFrame implements WindowListener {
 	private JTextPane txtpnSimulationTestOf;
 	public JLabel lblTestStatus;
 	public JButton btnStopTest;
+	public JCheckBox chkAutoStop;
 
 	/**
 	 * Launch the gui.
@@ -443,6 +445,13 @@ public class MainFrame extends JFrame implements WindowListener {
 		gbc_btnChangeBotID.gridx = 4;
 		gbc_btnChangeBotID.gridy = 0;
 		panelBotControlBotID.add(btnChangeBotID, gbc_btnChangeBotID);
+		
+		chkAutoStop = new JCheckBox("Auto Stop");
+		GridBagConstraints gbc_chkAutoStop = new GridBagConstraints();
+		gbc_chkAutoStop.insets = new Insets(0, 0, 0, 5);
+		gbc_chkAutoStop.gridx = 5;
+		gbc_chkAutoStop.gridy = 0;
+		panelBotControlBotID.add(chkAutoStop, gbc_chkAutoStop);
 		
 		JPanel panelBotControlMotors = new JPanel();
 		panelBotControlMotors.setBorder(new TitledBorder(null, "Motors", TitledBorder.LEADING, TitledBorder.TOP, null, null));

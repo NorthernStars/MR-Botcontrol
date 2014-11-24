@@ -13,6 +13,7 @@ import javax.swing.event.ChangeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.northernstars.mr.botcontrol.core.MRBotControl;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocol;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
 import de.northernstars.mr.botcontrol.core.protocol.LEDAnimations;
@@ -361,6 +362,10 @@ public class TabSectionBotControl extends TabSection {
 			}
 			
 		}
+	}
+
+	public static boolean isAutostop() {
+		return MRBotControl.getInstance().getGui().chkAutoStop.isSelected();
 	}
 
 	
