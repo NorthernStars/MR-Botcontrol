@@ -154,6 +154,8 @@ public class MainFrame extends JFrame implements WindowListener {
 	public JLabel lblTestStatus;
 	public JButton btnStopTest;
 	public JCheckBox chkAutoStop;
+	private JLabel lblMaxSpeed;
+	public JTextField txtMaxSpeed;
 
 	/**
 	 * Launch the gui.
@@ -437,9 +439,9 @@ public class MainFrame extends JFrame implements WindowListener {
 		panelBotControlMotors.setBorder(new TitledBorder(null, "Motors", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelBotControl.add(panelBotControlMotors, "2, 4, fill, fill");
 		GridBagLayout gbl_panelBotControlMotors = new GridBagLayout();
-		gbl_panelBotControlMotors.columnWidths = new int[]{0, 0, 0, 0, 0};
+		gbl_panelBotControlMotors.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gbl_panelBotControlMotors.rowHeights = new int[]{0, 40, 40, 40, 0};
-		gbl_panelBotControlMotors.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBotControlMotors.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_panelBotControlMotors.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelBotControlMotors.setLayout(gbl_panelBotControlMotors);
 		
@@ -510,12 +512,30 @@ public class MainFrame extends JFrame implements WindowListener {
 		btnTestBots = new JButton("Test First 30 Bots");
 		btnTestBots.setMnemonic('T');
 		GridBagConstraints gbc_btnTestBots = new GridBagConstraints();
-		gbc_btnTestBots.insets = new Insets(0, 0, 5, 0);
+		gbc_btnTestBots.insets = new Insets(0, 0, 5, 5);
 		gbc_btnTestBots.fill = GridBagConstraints.BOTH;
 		gbc_btnTestBots.gridheight = 2;
 		gbc_btnTestBots.gridx = 3;
 		gbc_btnTestBots.gridy = 1;
 		panelBotControlMotors.add(btnTestBots, gbc_btnTestBots);
+		
+		lblMaxSpeed = new JLabel("Max Speed:");
+		GridBagConstraints gbc_lblMaxSpeed = new GridBagConstraints();
+		gbc_lblMaxSpeed.anchor = GridBagConstraints.EAST;
+		gbc_lblMaxSpeed.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMaxSpeed.gridx = 4;
+		gbc_lblMaxSpeed.gridy = 1;
+		panelBotControlMotors.add(lblMaxSpeed, gbc_lblMaxSpeed);
+		
+		txtMaxSpeed = new JTextField();
+		txtMaxSpeed.setText("100");
+		GridBagConstraints gbc_txtMaxSpeed = new GridBagConstraints();
+		gbc_txtMaxSpeed.insets = new Insets(0, 0, 5, 0);
+		gbc_txtMaxSpeed.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtMaxSpeed.gridx = 5;
+		gbc_txtMaxSpeed.gridy = 1;
+		panelBotControlMotors.add(txtMaxSpeed, gbc_txtMaxSpeed);
+		txtMaxSpeed.setColumns(10);
 		
 		btnMotorLeftForeward = new JButton("Foreward");
 		GridBagConstraints gbc_btnMotorLeftForeward = new GridBagConstraints();
@@ -570,6 +590,7 @@ public class MainFrame extends JFrame implements WindowListener {
 		lblTestBotsStatus = new JLabel("");
 		lblTestBotsStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblTestBotsStatus = new GridBagConstraints();
+		gbc_lblTestBotsStatus.insets = new Insets(0, 0, 0, 5);
 		gbc_lblTestBotsStatus.fill = GridBagConstraints.BOTH;
 		gbc_lblTestBotsStatus.gridx = 3;
 		gbc_lblTestBotsStatus.gridy = 3;

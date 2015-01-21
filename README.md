@@ -1,7 +1,7 @@
 MR-Botcontrol
 =============
 
-Mixde-Reality Bot Control Module
+Mixed-Reality Bot Control Module
 
 INSTALLATION
 ------------
@@ -14,7 +14,7 @@ INSTALLATION
 
 Linux device permissions
 ------------------------
-If your're using windows, maybe you have no
+If your're using linux, maybe you have no
 permissions to use FTDI devices.
 So create a new udev rule in /etc/udev/rules.d.
 

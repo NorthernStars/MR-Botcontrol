@@ -16,6 +16,7 @@ import de.northernstars.mr.botcontrol.core.protocol.BotProtocolCommand;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolCommands;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionBotControl;
+import de.northernstars.mr.botcontrol.gui.MainFrame;
 
 /**
  * Class for writing data to ftdi device using async. thread.
@@ -109,6 +110,21 @@ public class DataWriter implements Runnable{
 			if( !vSectionsList.isEmpty() ){
 				for(BotProtocolSection s : vSectionsList){
 					log.debug("SEND {}:{}", s.getBotID(), s);
+					
+					// adjust speed
+					float viMaxSpeed = Float.parseFloat(
+							MRBotControl.getInstance().getGui().txtMaxSpeed.getText() );
+					for( BotProtocolCommand cmd : s.getCommandList() ){
+						if( cmd.getCommand() == BotProtocolCommands.MOTOR_LEFT_BWD
+								|| cmd.getCommand() == BotProtocolCommands.MOTOR_LEFT_FWD
+								|| cmd.getCommand() == BotProtocolCommands.MOTOR_RIGHT_BWD
+								|| cmd.getCommand() == BotProtocolCommands.MOTOR_RIGHT_FWD){
+							byte vValue = (byte) ((0xff & cmd.getValue()) * viMaxSpeed/100f);
+							System.out.println("value " + ( 0xff & vValue ));
+							cmd.setValue(vValue);
+							
+						}
+					}
 				}
 				
 				System.out.println( "connected: " + ftdi.isConnected() );
