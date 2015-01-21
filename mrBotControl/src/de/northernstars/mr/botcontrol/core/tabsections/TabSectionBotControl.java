@@ -215,6 +215,8 @@ public class TabSectionBotControl extends TabSection {
 					int newBotID = Integer.parseInt(gui.txtBotIDChangeTo.getText());
 					BotProtocolSection section = new BotProtocolSection(getBotID());
 					section.add( BotProtocol.changeBotID(newBotID) );
+					section.add( BotProtocol.changeBotID(newBotID) );
+					section.add( BotProtocol.changeBotID(newBotID) );
 					send( new BotProtocolSection[]{section} );
 					gui.txtBotID.setText( Integer.toString(newBotID) );
 				} catch (NumberFormatException err){
