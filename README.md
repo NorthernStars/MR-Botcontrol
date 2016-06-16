@@ -8,7 +8,7 @@ INSTALLATION
 
 1. Import project into eclipse.
 
-2. Import jFTDIserial from submodule
+2. Import jFTDIserial from https://github.com/hanneseilers/jFTDIserial
 
 
 
