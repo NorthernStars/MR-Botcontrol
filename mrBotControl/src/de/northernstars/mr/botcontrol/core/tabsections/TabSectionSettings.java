@@ -147,7 +147,7 @@ public class TabSectionSettings extends TabSection {
 	
 	synchronized private void updateDevicesModel(){
 		// update items list
-		devsModel.removeAllElements();		
+		devsModel.removeAllElements();
 		for( SerialDevice dev : control.getFtdi().getAvailableDevices() ){
 			devsModel.addElement(dev.toString());
 		}
