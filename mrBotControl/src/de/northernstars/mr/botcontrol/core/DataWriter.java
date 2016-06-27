@@ -10,13 +10,12 @@ import java.util.concurrent.BlockingQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.hanneseilers.jftdiserial.core.FTDISerial;
+import de.hanneseilers.jserial.core.JSerial;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocol;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolCommand;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolCommands;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
 import de.northernstars.mr.botcontrol.core.tabsections.TabSectionBotControl;
-import de.northernstars.mr.botcontrol.gui.MainFrame;
 
 /**
  * Class for writing data to ftdi device using async. thread.
@@ -31,14 +30,14 @@ public class DataWriter implements Runnable{
 	private Map<Integer, Long> mLastMessage = new HashMap<Integer, Long>();
 	public static final long timeout = 75;
 	
-	private FTDISerial ftdi;
+	private JSerial ftdi;
 	private boolean active = true;
 	
 	/**
 	 * Constructor
-	 * @param aFtdi	{@link FTDISerial} device
+	 * @param aFtdi	{@link JSerial} device
 	 */
-	public DataWriter(FTDISerial aFtdi) {
+	public DataWriter(JSerial aFtdi) {
 		ftdi = aFtdi;
 	}
 	

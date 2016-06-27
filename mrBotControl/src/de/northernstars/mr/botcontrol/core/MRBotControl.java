@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.hanneseilers.jftdiserial.core.FTDISerial;
+import de.hanneseilers.jserial.core.JSerial;
 import de.northernstars.mr.botcontrol.core.interfaces.CommandPackageRecievedListener;
 import de.northernstars.mr.botcontrol.core.interfaces.GuiFrameListener;
 import de.northernstars.mr.botcontrol.core.protocol.BotProtocolSection;
@@ -27,7 +27,7 @@ public class MRBotControl implements GuiFrameListener, CommandPackageRecievedLis
 	private static MRBotControl sInstance;
 	
 	private MainFrame gui = null;
-	private FTDISerial ftdi = new FTDISerial();
+	private JSerial ftdi = new JSerial();
 	private DataWriter writer;
 	private MRBotControlServer server;
 	
@@ -108,7 +108,7 @@ public class MRBotControl implements GuiFrameListener, CommandPackageRecievedLis
 	/**
 	 * @return the ftdi
 	 */
-	public FTDISerial getFtdi() {
+	public JSerial getFtdi() {
 		return ftdi;
 	}
 

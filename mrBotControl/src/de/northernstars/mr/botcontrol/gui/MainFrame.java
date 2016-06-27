@@ -7,7 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import de.hanneseilers.jftdiserial.core.Baudrates;
+import de.hanneseilers.jserial.core.Baudrates;
+import de.hanneseilers.jserial.core.DataBits;
+import de.hanneseilers.jserial.core.Parity;
+import de.hanneseilers.jserial.core.StopBits;
 import de.northernstars.mr.botcontrol.core.interfaces.GuiFrameListener;
 import de.northernstars.mr.botcontrol.core.protocol.ProtocolVersions;
 
@@ -36,11 +39,6 @@ import javax.swing.DefaultComboBoxModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import de.hanneseilers.jftdiserial.core.DataBits;
-import de.hanneseilers.jftdiserial.core.StopBits;
-import de.hanneseilers.jftdiserial.core.Parity;
-
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;

@@ -11,11 +11,11 @@ import javax.swing.event.ChangeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.hanneseilers.jftdiserial.core.Baudrates;
-import de.hanneseilers.jftdiserial.core.DataBits;
-import de.hanneseilers.jftdiserial.core.Parity;
-import de.hanneseilers.jftdiserial.core.SerialDevice;
-import de.hanneseilers.jftdiserial.core.StopBits;
+import de.hanneseilers.jserial.core.Baudrates;
+import de.hanneseilers.jserial.core.DataBits;
+import de.hanneseilers.jserial.core.Parity;
+import de.hanneseilers.jserial.core.SerialDevice;
+import de.hanneseilers.jserial.core.StopBits;
 
 /**
  * Section Settings
