@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project mrBotControl">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="${dir.buildfile}/.."/>
+    <property name="dir.jarfile" value="${dir.buildfile}/mrBotControl"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/mrbotcontrol.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="de.northernstars.mr.botcontrol.core.MRBotControl"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${dir.jarfile}/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/log4j-api-2.0-rc1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/log4j-core-2.0-rc1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/forms-1.3.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/jSerial.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/jd2xx.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/RXTXcomm.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/yad2xx.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/commons-cli-1.3.1.jar"/>
+        </jar>
+    </target>
+</project>
