@@ -10,6 +10,7 @@ MR-Botcontrol uses jSerial (https://github.com/hanneseilers/jSerial) for serial 
 
 ## INSTALLATION
 
+Hint: You can also use the latest release and follow the installation instructions there.
 For installation clone this repository
 
      git clone https://github.com/NorthernStars/MR-Botcontrol.git
