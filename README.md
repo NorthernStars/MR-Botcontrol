@@ -2,12 +2,29 @@
 
 MR-Botcontrol is a Java-based software for controling the Mixed-Reality robots mrShark via serial transmitter. It requires a serial port (FTDI232 chip based USB-serial converter was tested successfully). It includes a graphical user interface (gui) for connecting to the serial transmitter and controlling the robots. In background a server is listining for incoming control data from Mixed-Reality server. It's also possible to start MR-Botcontrol with autoconnect feature and without gui (see section Command-line arguments).
 
+## DEPENDENCIES
+
+MR-Botcontrol uses jSerial (https://github.com/hanneseilers/jSerial) for serial connections. But it is already competely included inside the github project. For building this project ant (https://ant.apache.org/) is required
+
+     sudo apt-get install ant
+
 ## INSTALLATION
 
-1. Import project into eclipse.
+For installation clone this repository
 
-2. Import jFTDIserial from https://github.com/hanneseilers/jFTDIserial
+     git clone https://github.com/NorthernStars/MR-Botcontrol.git
+     cd MR-Botcontrol
+     
+Build the runnable jar file
 
+     ant
+     
+Now you can start the MR-Botcontrol
+
+     cd mrBotControl
+     java -jar mrbotcontrol.jar
+     
+You can move the runnable jar file. But it requires the lib folder next to it for accessing serial ports!
 
 
 ### Linux serial device permissions
