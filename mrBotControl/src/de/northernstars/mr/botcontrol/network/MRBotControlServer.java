@@ -41,7 +41,7 @@ public class MRBotControlServer implements Runnable {
 				log.debug("Started datagram socket at {}:{}", socket.getLocalAddress(), socketPort);
 			}
 		} catch (SocketException e) {
-			e.printStackTrace();
+			log.error("Cannot start MRBotControlServer: {}", e.getMessage());
 		}
 	}
 	

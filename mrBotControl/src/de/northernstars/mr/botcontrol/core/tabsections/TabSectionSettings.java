@@ -34,68 +34,75 @@ public class TabSectionSettings extends TabSection {
 			
 		gui.cmbSerialLibraries.setModel(libsModel);
 		gui.cmbDevices.setModel(devsModel);
-		gui.cmbSerialLibraries.addItemListener(new ItemListener() {			
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				if( arg0.getStateChange() == ItemEvent.SELECTED ){
-					String libName = gui.cmbSerialLibraries.getItemAt( gui.cmbSerialLibraries.getSelectedIndex() );
-					control.getFtdi().selectLibByName(libName);
+		
+		// add listener
+		if( !control.isAutoConnect() ){
+			
+			gui.cmbSerialLibraries.addItemListener(new ItemListener() {			
+				@Override
+				public void itemStateChanged(ItemEvent arg0) {
+					if( arg0.getStateChange() == ItemEvent.SELECTED ){
+						String libName = gui.cmbSerialLibraries.getItemAt( gui.cmbSerialLibraries.getSelectedIndex() );
+						control.getSerial().selectLibByName(libName);
+						updateDevicesModel();
+					}
+				}
+			});
+			
+			gui.btnConnect.addActionListener(new ActionListener() {			
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if( control.getSerial().isConnected() ){
+						
+						control.getSerial().disconnect();
+						gui.lblStatus.setText("Disconnected");
+						log.debug("Disconnected from device.");
+						
+					} else{
+						
+						// get device by connectorName
+						String devName = gui.txtDevice.getText();
+						Baudrates baudrate = gui.cmbBaudrate.getItemAt(gui.cmbBaudrate.getSelectedIndex());
+						DataBits dataBits = gui.cmbDataBits.getItemAt(gui.cmbDataBits.getSelectedIndex());
+						Parity parity = gui.cmbParity.getItemAt(gui.cmbParity.getSelectedIndex());
+						StopBits stopBits = gui.cmbStopBits.getItemAt(gui.cmbStopBits.getSelectedIndex());
+						
+						for( SerialDevice dev : control.getSerial().getAvailableDevices() ){
+							if( dev.toString().equals(devName) ){
+								control.getSerial().setConnectionSettings(baudrate, dataBits, stopBits, parity, 100);
+								if( control.getSerial().connect(dev) ){
+									gui.lblStatus.setText("Connected to " + dev.toString());
+									log.debug("Connected to {}", dev);
+									break;
+								}
+							}
+						}					
+						
+					}
+					
+					updateGuiComponentsEnabled();
+				}
+			});
+			
+			gui.btnRefresh.addActionListener(new ActionListener() {			
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if( control.getSerial().isConnected() ){
+						gui.btnConnect.doClick();
+					}
+					
 					updateDevicesModel();
 				}
-			}
-		});
+			});
+			
+		}
+		
 		gui.cmbDevices.addItemListener(new ItemListener() {			
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				if( arg0.getStateChange() == ItemEvent.SELECTED ){
 					gui.txtDevice.setText( gui.cmbDevices.getItemAt(gui.cmbDevices.getSelectedIndex()) );
 				}
-			}
-		});
-		
-		gui.btnConnect.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if( control.getFtdi().isConnected() ){
-					
-					control.getFtdi().disconnect();
-					gui.lblStatus.setText("Disconnected");
-					log.debug("Disconnected from device.");
-					
-				} else{
-					
-					// get device by connectorName
-					String devName = gui.txtDevice.getText();
-					Baudrates baudrate = gui.cmbBaudrate.getItemAt(gui.cmbBaudrate.getSelectedIndex());
-					DataBits dataBits = gui.cmbDataBits.getItemAt(gui.cmbDataBits.getSelectedIndex());
-					Parity parity = gui.cmbParity.getItemAt(gui.cmbParity.getSelectedIndex());
-					StopBits stopBits = gui.cmbStopBits.getItemAt(gui.cmbStopBits.getSelectedIndex());
-					
-					for( SerialDevice dev : control.getFtdi().getAvailableDevices() ){
-						if( dev.toString().equals(devName) ){
-							control.getFtdi().setConnectionSettings(baudrate, dataBits, stopBits, parity, 100);
-							if( control.getFtdi().connect(dev) ){
-								gui.lblStatus.setText("Connected to " + dev.toString());
-								log.debug("Connected to {}", dev);
-								break;
-							}
-						}
-					}					
-					
-				}
-				
-				updateGuiComponentsEnabled();
-			}
-		});
-		
-		gui.btnRefresh.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if( control.getFtdi().isConnected() ){
-					gui.btnConnect.doClick();
-				}
-				
-				updateDevicesModel();
 			}
 		});
 		
@@ -107,7 +114,7 @@ public class TabSectionSettings extends TabSection {
 		boolean en = true;
 		String status = "Disconnected";
 		String cmdConnect = "Connect";
-		if( control.getFtdi().isConnected() ){
+		if( control.getSerial().isConnected() || control.isAutoConnect() ){
 			en = false;
 			status = "Connected";
 			cmdConnect = "Disconnect";
@@ -122,21 +129,26 @@ public class TabSectionSettings extends TabSection {
 		gui.cmbSerialLibraries.setEnabled(en);
 		gui.txtDevice.setEnabled(en);
 		
+		if( control.isAutoConnect() ){
+			gui.btnConnect.setEnabled(en);
+			gui.btnRefresh.setEnabled(en);
+		}
+		
 		// set texts
 		gui.lblStatus.setText(status);
 		gui.btnConnect.setText(cmdConnect);
 	}
 	
 	private void updateLibsModel(){
-		if( !control.getFtdi().isConnected() ){
+		if( !control.getSerial().isConnected() ){
 			// update items list
 			libsModel.removeAllElements();
-			for( String lib : control.getFtdi().getAvailableLibNames() ){
+			for( String lib : control.getSerial().getAvailableLibNames() ){
 				libsModel.addElement(lib);
 			}
 			
 			// set selected item
-			gui.cmbSerialLibraries.setSelectedItem( control.getFtdi().getSelectedLibName() );
+			gui.cmbSerialLibraries.setSelectedItem( control.getSerial().getSelectedLibName() );
 			
 			// update devices list
 			updateDevicesModel();
@@ -148,7 +160,7 @@ public class TabSectionSettings extends TabSection {
 	synchronized private void updateDevicesModel(){
 		// update items list
 		devsModel.removeAllElements();
-		for( SerialDevice dev : control.getFtdi().getAvailableDevices() ){
+		for( SerialDevice dev : control.getSerial().getAvailableDevices() ){
 			devsModel.addElement(dev.toString());
 		}
 		

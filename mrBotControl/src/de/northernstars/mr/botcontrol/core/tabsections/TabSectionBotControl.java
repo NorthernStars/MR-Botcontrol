@@ -357,7 +357,7 @@ public class TabSectionBotControl extends TabSection {
 		if( gui.tabbedPane.getSelectedComponent() == gui.panelBotControl ){
 			
 			// check if still connected
-			if( control.getFtdi().isConnected() ){
+			if( control.getSerial().isConnected() ){
 				setChildsEnabled(true, gui.panelBotControl);
 			} else {
 				setChildsEnabled(false, gui.panelBotControl);
