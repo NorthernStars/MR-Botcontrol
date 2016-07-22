@@ -1,23 +1,16 @@
-MR-Botcontrol
-=============
+# MR-Botcontrol
 
-Mixed-Reality Bot Control Module
+MR-Botcontrol is a Java-based software for controling the Mixed-Reality robots mrShark via serial transmitter. It requires a serial port (FTDI232 chip based USB-serial converter was tested successfully). It includes a graphical user interface (gui) for connecting to the serial transmitter and controlling the robots. In background a server is listining for incoming control data from Mixed-Reality server. It's also possible to start MR-Botcontrol with autoconnect feature and without gui (see section Command-line arguments).
 
-
-DEPENDENCIES
-------------
-All dependencies are already includes into projects.
-
-
-INSTALLATION
-------------
+## INSTALLATION
 
 1. Import project into eclipse.
 
+2. Import jFTDIserial from https://github.com/hanneseilers/jFTDIserial
 
 
-Linux device permissions
-------------------------
+
+### Linux serial device permissions
 If your're using linux, maybe you have no
 permissions to use FTDI devices.
 So create a new udev rule in /etc/udev/rules.d.
@@ -32,3 +25,11 @@ After that restart udev
 
 	sudo stop udev
 	sudo udev start
+	
+## Command-line arguments
+MR-Botcontrol currently supports the following command-line arguments
+
+     -q			Quiet start (without GUI and autoconnect enabled)
+     -d	<DEVICE>	Sets serial <DEVICE> (on Linux something like /dev/ttyUSB0) to connect to. Requires -a to work.
+     -a			Autoconnect feature on. Software autoconnects to device set with -d or to first serial device found.
+     -p <PORT>		Port number to use for server socket for incoming control data from MR game server. (default: 9080)
